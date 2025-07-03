@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Islands - Rosehill Highways</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Overpass', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+
+        /* Mega Menu Styles */
+        .nav-menu li {
+            position: relative;
+        }
+
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            min-width: 320px;
+            max-width: 350px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            margin-top: 15px;
+        }
+
+        .nav-menu li:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu-section {
+            margin-bottom: 20px;
+        }
+
+        .mega-menu-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .mega-menu-section h4 {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mega-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mega-menu-links li {
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .mega-menu-links li:last-child {
+            border-bottom: none;
+        }
+
+        .mega-menu-links a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .mega-menu-links a:hover {
+            color: #ff6b35;
+            padding-left: 8px;
+        }
+
+        .mega-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        /* Mobile Mega Menu Styles */
+        @media (max-width: 768px) {
+            .mega-menu {
+                position: static;
+                transform: none;
+                min-width: auto;
+                max-width: none;
+                width: 100%;
+                margin: 10px 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .mega-menu::before {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Modern Breadcrumb */
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-top: 100px;
+            border-bottom: 1px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b35, #1a365d);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            width: 100%;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb-item a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .breadcrumb-separator {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin: 0 4px;
+            opacity: 0.7;
+        }
+
+        .breadcrumb-current {
+            color: #1a365d;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        /* Product Hero - Different approach for islands */
+        .product-hero {
+            position: relative;
+            height: 550px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(26, 54, 93, 0.7) 50%, rgba(255, 107, 53, 0.25) 100%);
+            z-index: 2;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.8);
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+            z-index: 3;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 4;
+            text-align: center;
+            width: 100%;
+        }
+
+        .hero-accent {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            margin-top: 15px;
+        }
+
+        .product-hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .product-hero h1 span {
+            color: #ff6b35;
+            display: inline;
+        }
+
+        .product-tagline {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .hero-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 18px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .hero-stat:hover {
+            background: rgba(255, 107, 53, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #ff6b35;
+            display: block;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .hero-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .hero-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .product-images {
+            position: sticky;
+            top: 120px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 2px solid #e9ecef;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .thumbnail {
+            height: 120px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #ff6b35;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Product Details */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .section-block {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 2px solid #e9ecef;
+        }
+
+        .section-block h2 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .section-block h3 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .section-block p {
+            color: #495057;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        /* Island Types Grid */
+        .island-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .island-type {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .island-type::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b35, #e55a2b);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .island-type:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-color: #ff6b35;
+        }
+
+        .island-type:hover::before {
+            transform: scaleX(1);
+        }
+
+        .island-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .island-type h4 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .island-type p {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Specifications Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .specs-table th {
+            background: #f8f9fa;
+            font-family: 'Overpass', sans-serif;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .table-section {
+            margin: 30px 0;
+        }
+
+        .table-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            padding-left: 15px;
+            border-left: 4px solid #ff6b35;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cta-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            margin-bottom: 25px;
+            opacity: 0.95;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: #ff6b35;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Tabbed Content */
+        .tabbed-content {
+            margin: 30px 0;
+        }
+
+        .tab-nav {
+            display: flex;
+            border-bottom: 3px solid #e9ecef;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            gap: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-family: 'Overpass', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: max-content;
+        }
+
+        .tab-btn:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #ff6b35;
+            border-bottom-color: #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Related Products */
+        .related-products {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .related-products h2 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2.4rem;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .related-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .related-image {
+            height: 200px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .related-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .related-card:hover .related-image img {
+            transform: scale(1.05);
+        }
+
+        .related-content {
+            padding: 25px;
+        }
+
+        .related-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .related-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .related-link {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s ease;
+        }
+
+        .related-link:hover {
+            gap: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-hero {
+                height: auto;
+                padding: 100px 0 80px;
+            }
+
+            .product-hero h1 {
+                font-size: 2.8rem;
+                letter-spacing: -1px;
+            }
+
+            .product-tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .island-types {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .product-images {
+                position: static;
+            }
+
+            .section-block {
+                padding: 25px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .hero-btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+            }
+
+            .breadcrumb-list {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="solutions.html" class="active">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="solutions.html" class="active">Solutions</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-section">
+                            <h4>Cycle Lane Protection</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Islands & Refuges</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Speed Calming</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="case-studies.html">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-list" aria-label="Breadcrumb">
+                <div class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <a href="solutions.html#islands-refuges">Islands & Refuges</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <span class="breadcrumb-current">Traffic Islands</span>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="hero-background">
+            <img src="traffic_island_web.jpg" alt="Traffic Islands background" onerror="this.style.display='none'">
+        </div>
+        <div class="hero-pattern"></div>
+        <div class="hero-container">
+            <span class="hero-accent">Junction Control</span>
+            <h1>Traffic <span>Islands</span></h1>
+            <p class="product-tagline">One-piece rubber islands installed in under 30 minutes. From compact 1m units to large 2.4m traffic control features, engineered for durability and rapid deployment.</p>
+            
+            <div class="hero-stats-grid">
+                <div class="hero-stat">
+                    <span class="stat-number">&lt;30</span>
+                    <span class="stat-label">Min Install</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">1-2</span>
+                    <span class="stat-label">Pieces</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">2.4m</span>
+                    <span class="stat-label">Max Size</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Recycled</span>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="#specifications" class="hero-btn">View Specifications →</a>
+                <a href="#island-types" class="hero-btn hero-btn-secondary">Explore Types</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Content -->
+    <section class="product-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="traffic_islands_web_01.jpg" alt="Traffic Islands installed at junction" onerror="this.parentElement.innerHTML='📷 Traffic Island Product Image'">
+                    </div>
+                    <div class="image-thumbnails">
+                        <div class="thumbnail active">
+                            <img src="traffic_islands_web_01.jpg" alt="Traffic Island Overview" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="traffic_islands_web_02.jpg" alt="Traffic Island Chicane" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="traffic_islands_web_03.jpg" alt="Quick Installation" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="product-details">
+                    <!-- Island Types -->
+                    <div class="section-block" id="island-types">
+                        <h2>Island Types</h2>
+                        <p>Our traffic islands are available in one-piece and two-piece configurations, designed to meet the demands of any traffic management situation.</p>
+                        
+                        <div class="island-types">
+                            <div class="island-type">
+                                <div class="island-icon">①</div>
+                                <h4>One-Piece Islands</h4>
+                                <p>Compact units (1m-2m) for quick installation. Solid construction with universal sign plate and underside channelling.</p>
+                            </div>
+                            <div class="island-type">
+                                <div class="island-icon">②</div>
+                                <h4>Two-Piece Islands</h4>
+                                <p>Large units (1.5m-2.4m) supplied in two halves for easier handling while maintaining solid performance.</p>
+                            </div>
+                            <div class="island-type">
+                                <div class="island-icon">
+                                    <img src="Icons/Glyph/Natural, Toy, Construction, Learning, Kids.svg" alt="Heritage Pattern" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <h4>Heritage Pattern</h4>
+                                <p>Available with heritage paver pattern surface for aesthetic integration in sensitive environments.</p>
+                            </div>
+                            <div class="island-type">
+                                <div class="island-icon">
+                                    <img src="Icons/Glyph/paver, construction, vehicle, asphalt, heavy, machinery, equipment, road.svg" alt="Extendable Design" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <h4>Extendable Design</h4>
+                                <p>All islands can be extended length and width-ways using extension pieces to suit any specification.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabbed Content -->
+                    <div class="section-block">
+                        <h2>Product Details</h2>
+                        <div class="tabbed-content">
+                            <div class="tab-nav">
+                                <button class="tab-btn active" data-tab="features">Features & Benefits</button>
+                                <button class="tab-btn" data-tab="specifications">Technical Specifications</button>
+                                <button class="tab-btn" data-tab="applications">Applications</button>
+                            </div>
+
+                            <!-- Features & Benefits Tab -->
+                            <div class="tab-content active" id="features">
+                                <h3>Key Features & Benefits</h3>
+                                <ul class="benefits-list">
+                                    <li>No excavation required – surface fixed and bolted</li>
+                                    <li>Solid rubber construction in one or two pieces only</li>
+                                    <li>Large units ensure fast and secure installation</li>
+                                    <li>One-piece islands installed in under 30 minutes</li>
+                                    <li>Two-piece islands installed in under 40 minutes</li>
+                                    <li>Tough and flexible construction follows road contours</li>
+                                    <li>Universal sign plate for a wide range of signage</li>
+                                    <li>Underside channelling for drainage and cable access</li>
+                                    <li>Can be extended length and width-ways with extension pieces</li>
+                                    <li>Optional 50mm reflective glass eyes available</li>
+                                    <li>Heritage paver pattern available for aesthetic areas</li>
+                                    <li>Compatible with keep left signs, bollards, and illuminated posts</li>
+                                    <li>Cavity available for integral battery box if required</li>
+                                    <li>Made from 100% recycled tyre rubber</li>
+                                </ul>
+                                <p>Our unique one-piece and two-piece rubber traffic islands offer excellent cost and time benefits compared with constructed, concrete and modular alternatives.</p>
+                            </div>
+
+                            <!-- Technical Specifications Tab -->
+                            <div class="tab-content" id="specifications">
+                                <h3>Technical Specifications</h3>
+                                <p>All traffic islands feature consistent 130mm height with varying dimensions to suit different applications:</p>
+                                
+                                <div class="table-section">
+                                    <div class="table-title">One-Piece Islands (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>150</td>
+                                                <td>L: 1000 W: 1000</td>
+                                                <td>DI-1000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>180</td>
+                                                <td>L: 1200 W: 1200</td>
+                                                <td>DI-1200</td>
+                                            </tr>
+                                            <tr>
+                                                <td>230</td>
+                                                <td>L: 1000 W: 2000</td>
+                                                <td>DI-2000 S</td>
+                                            </tr>
+                                            <tr>
+                                                <td>280</td>
+                                                <td>L: 2032 W: 1000</td>
+                                                <td>TI-2000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-section">
+                                    <div class="table-title">Heritage Pattern (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>180</td>
+                                                <td>L: 1200 W: 1200</td>
+                                                <td>DI-1200H</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-section">
+                                    <div class="table-title">Two-Piece Islands (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>150</td>
+                                                <td>L: 1500 W: 1500</td>
+                                                <td>DI-1500</td>
+                                            </tr>
+                                            <tr>
+                                                <td>190</td>
+                                                <td>L: 2400 W: 1270</td>
+                                                <td>DI-2400S</td>
+                                            </tr>
+                                            <tr>
+                                                <td>210</td>
+                                                <td>L: 1800 W: 1800</td>
+                                                <td>DI-1800</td>
+                                            </tr>
+                                            <tr>
+                                                <td>260</td>
+                                                <td>L: 2000 W: 2000</td>
+                                                <td>DI-2000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Additional Specifications</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>Material:</strong> 100% recycled tyre rubber</li>
+                                    <li><strong>Installation:</strong> Surface-mounted with structural adhesive and bolts</li>
+                                    <li><strong>Sign Compatibility:</strong> Universal sign fixing plate included</li>
+                                    <li><strong>Drainage:</strong> Underside channelling system</li>
+                                    <li><strong>Extensions:</strong> Available for all sizes</li>
+                                    <li><strong>Optional Features:</strong> 50mm reflective glass eyes, battery box cavity</li>
+                                </ul>
+                            </div>
+
+                            <!-- Applications Tab -->
+                            <div class="tab-content" id="applications">
+                                <h3>Applications</h3>
+                                <p>Traffic islands provide effective traffic control and guidance in various highway scenarios:</p>
+                                
+                                <h4>Traffic Management Applications</h4>
+                                <ul class="benefits-list">
+                                    <li>Junction control and traffic direction</li>
+                                    <li>Lane segregation at complex intersections</li>
+                                    <li>Build-out systems for traffic calming</li>
+                                    <li>Pinch points for speed control</li>
+                                    <li>Roundabout central islands</li>
+                                    <li>Highway merge and diverge points</li>
+                                    <li>Urban street traffic organisation</li>
+                                    <li>Car park traffic flow management</li>
+                                </ul>
+
+                                <h4>Infrastructure Integration</h4>
+                                <ul class="benefits-list">
+                                    <li>Support for keep left signs and bollards</li>
+                                    <li>Mounting platform for illuminated posts</li>
+                                    <li>Integration with lighting columns</li>
+                                    <li>Housing for traffic control equipment</li>
+                                    <li>Cable management through underside channels</li>
+                                    <li>Battery box integration for powered signage</li>
+                                </ul>
+
+                                <h4>Choosing the Right Island</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>One-piece (1m-2m):</strong> Quick installation, smaller applications</li>
+                                    <li><strong>Two-piece (1.5m-2.4m):</strong> Large control features, major junctions</li>
+                                    <li><strong>Heritage pattern:</strong> Conservation areas, aesthetic considerations</li>
+                                    <li><strong>Extension pieces:</strong> Custom sizes, complex layouts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="cta-section">
+                        <h3>Ready to Control Traffic Flow?</h3>
+                        <p>Contact our team to discuss your traffic island requirements and discover the perfect solution for your junction control needs.</p>
+                        <div class="cta-buttons">
+                            <a href="contact-us.html" class="btn-white">Request Quote</a>
+                            <a href="#" class="btn-white">Download Datasheet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Related Products</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="keswick_refuge.jpg" alt="Pedestrian Refuges" onerror="this.parentElement.innerHTML='📷 Pedestrian Refuges'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Pedestrian Refuges</h3>
+                        <p class="related-description">The same robust island technology configured specifically for pedestrian crossing applications with tactile integration.</p>
+                        <a href="pedestrian-refuges-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="lane_separators_web.jpg" alt="Lane Separators" onerror="this.parentElement.innerHTML='📷 Lane Separators'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Lane Separators</h3>
+                        <p class="related-description">Modular units that complement traffic islands for comprehensive traffic management schemes.</p>
+                        <a href="lane-separator-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="ncld_lite_web.jpg" alt="Cycle Lane Defenders" onerror="this.parentElement.innerHTML='📷 Cycle Protection'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Cycle Lane Defenders</h3>
+                        <p class="related-description">Dedicated cycle protection that works alongside traffic islands to create comprehensive active travel infrastructure.</p>
+                        <a href="ncld-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Product Categories</h3>
+                    <ul>
+                        <li><a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a></li>
+                        <li><a href="solutions.html#islands-refuges">Islands & Refuges</a></li>
+                        <li><a href="solutions.html#speed-calming">Speed Calming</a></li>
+                        <li><a href="solutions.html#drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                
+                if (target) {
+                    // If clicking on specifications link, activate the specifications tab first
+                    if (targetId === 'specifications') {
+                        const specTab = document.querySelector('[data-tab="specifications"]');
+                        if (specTab) {
+                            specTab.click();
+                        }
+                    }
+                    
+                    // Scroll to the parent section that contains the tabs
+                    const parentSection = target.closest('.section-block');
+                    if (parentSection) {
+                        parentSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    } else {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Image thumbnail functionality
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.querySelector('.main-image img');
+
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // Update main image source
+                const thumbImg = this.querySelector('img');
+                if (thumbImg && mainImage) {
+                    mainImage.src = thumbImg.src;
+                    mainImage.alt = thumbImg.alt;
+                }
+            });
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.section-block, .related-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

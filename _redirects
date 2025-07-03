@@ -1,0 +1,24 @@
+# Netlify Redirects Configuration
+
+# Force HTTPS
+http://rosehillhighways.netlify.app/* https://rosehillhighways.netlify.app/:splat 301!
+
+# Clean URLs - remove .html extension
+/home /index.html 200
+/solutions /solutions.html 200
+/about /about-us.html 200
+/contact /contact-us.html 200
+/case-studies /case-studies.html 200
+
+# Product page redirects
+/ncld /ncld-product.html 200
+/ncld-lite /ncld-lite-product.html 200
+/lane-separators /lane-separator-product.html 200
+/traffic-islands /traffic-islands-product.html 200
+/pedestrian-refuges /pedestrian-refuges-product.html 200
+/speed-cushions /speed-cushions-product.html 200
+/speed-calmers /speed-calmers-product.html 200
+/raised-tables /raised-tables-zebra-crossings-product.html 200
+
+# Fallback for 404 errors
+/* /index.html 404

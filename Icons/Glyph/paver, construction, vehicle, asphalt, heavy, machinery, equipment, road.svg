@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 64 64">
+  <!-- Generator: Adobe Illustrator 28.7.1, SVG Export Plug-In . SVG Version: 1.2.0 Build 142)  -->
+  <g>
+    <g id="Glyph">
+      <g>
+        <rect x="33" y="16" width="10" height="20"/>
+        <path d="M31,26v10H7v-9c0-.54999.45001-1,1-1h23Z"/>
+        <path d="M56,26h-11v22h11c.55225,0,1-.44727,1-1v-20c0-.55273-.44775-1-1-1Z"/>
+        <path d="M43,38v10h-23c-.54999,0-1-.45001-1-1v-9h24Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

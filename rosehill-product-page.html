@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Islands - Rosehill Highways</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles - Same as homepage */
+        .header {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Overpass', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu - Same as homepage */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-nav-menu .contact-btn {
+            background: #ff6b35;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+            border-bottom: none;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 15px 0;
+            margin-top: 70px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-list a {
+            color: #6c757d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb-list a:hover {
+            color: #ff6b35;
+        }
+
+        .breadcrumb-list span {
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        /* Product Hero */
+        .product-hero {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+            opacity: 0.1;
+        }
+
+        .product-hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .product-title {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 3px solid #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .product-tagline {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        /* Product Images */
+        .product-images {
+            position: sticky;
+            top: 100px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .gallery-thumb {
+            height: 100px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .gallery-thumb:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        /* Product Details */
+        .product-details {
+            padding-left: 20px;
+        }
+
+        .section-block {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: #ff6b35;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .product-description {
+            color: #495057;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #e3f2fd, #f0f8ff);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b35;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .feature-text p {
+            color: #6c757d;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .benefits-list li {
+            padding: 18px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.05rem;
+        }
+
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+
+        .benefit-icon {
+            color: #ff6b35;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Specifications Table */
+        .specs-table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .specs-table th {
+            background: #f8f9fa;
+            color: #1a365d;
+            font-weight: 600;
+            font-family: 'Overpass', sans-serif;
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e9ecef;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans Pro', sans-serif;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-btn.active {
+            color: #ff6b35;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ff6b35;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* CTA Section */
+        .product-cta {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .product-cta h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .product-cta p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: #ff6b35;
+            padding: 18px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #ff6b35;
+            transform: translateY(-3px);
+        }
+
+        /* Related Products */
+        .related-products {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .related-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .related-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .related-image {
+            height: 200px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+        }
+
+        .related-content {
+            padding: 30px;
+        }
+
+        .related-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .related-description {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .related-link {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s ease;
+        }
+
+        .related-link:hover {
+            gap: 12px;
+        }
+
+        /* Contact Form */
+        .contact-section {
+            padding: 80px 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            color: #1a365d;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-family: 'Overpass', sans-serif;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Footer - Same as homepage */
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 107, 53, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff6b35;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #ff6b35;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .accreditation-badges {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1a365d;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive - Same breakpoints as homepage */
+        @media (max-width: 1200px) {
+            .nav-menu {
+                gap: 20px;
+            }
+            
+            .nav-menu a {
+                padding: 6px 12px;
+                font-size: 0.95rem;
+            }
+            
+            .contact-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+
+            .product-content {
+                gap: 60px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .nav-menu a {
+                padding: 5px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .contact-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .product-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-details {
+                padding-left: 0;
+            }
+
+            .product-images {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .logo {
+                font-size: 1.6rem;
+            }
+
+            .product-title {
+                font-size: 2.5rem;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-nav {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - Same as homepage -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                🛣️ Rosehill Highways
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#solutions">Solutions</a></li>
+                    <li><a href="#case-studies">Case Studies</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#contact" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="#solutions">Solutions</a>
+                    <a href="#case-studies">Case Studies</a>
+                    <a href="#about">About Us</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#contact" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <div class="breadcrumb-list">
+                <a href="/">Home</a> → 
+                <a href="/products">Products</a> → 
+                <span>Traffic Islands</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="product-hero-content">
+            <h1 class="product-title">
+                <div class="product-icon">🚧</div>
+                Traffic Islands
+            </h1>
+            <p class="product-tagline">
+                Reduce vehicle speeds and minimize traffic volume through route hierarchy with our innovative rubber traffic islands - surface fixed and tested for maximum safety and efficiency.
+            </p>
+        </div>
+    </section>
+
+    <!-- Product Content -->
+    <section class="container">
+        <div class="product-content">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="main-image">
+                    📷 Main Product Image
+                </div>
+                <div class="image-gallery">
+                    <div class="gallery-thumb">📷 1</div>
+                    <div class="gallery-thumb">📷 2</div>
+                    <div class="gallery-thumb">📷 3</div>
+                    <div class="gallery-thumb">📷 4</div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="product-details">
+                <!-- Overview -->
+                <div class="section-block">
+                    <h2 class="section-title">Product Overview</h2>
+                    <p class="product-description">
+                        Our unique one-piece rubber traffic islands are surface fixed in under 30 minutes and offer excellent cost and time benefits compared with constructed, concrete and modular alternatives.
+                    </p>
+                    <p class="product-description">
+                        Our one-piece units are available in three widths (1500, 1850 and 2000 mm) and can be installed with the flanged piece (splitter islands) or straight edges. High pressure moulded one is solid unit, these durable islands incorporate a conveyur sign fixing plate and underside channelling enabling them to follow the camber of the road, as well as aid drainage and allow access for cables/conduit if required.
+                    </p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-text">
+                                <h4>Quick Installation</h4>
+                                <p>Surface fixed in under 30 minutes</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">💰</div>
+                            <div class="feature-text">
+                                <h4>Cost Effective</h4>
+                                <p>Excellent value vs. concrete alternatives</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🛡️</div>
+                            <div class="feature-text">
+                                <h4>Durable Design</h4>
+                                <p>High pressure moulded solid unit</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🔧</div>
+                            <div class="feature-text">
+                                <h4>Flexible Options</h4>
+                                <p>Available in three widths with various edges</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="section-block">
+                    <div class="tab-nav">
+                        <button class="tab-btn active" onclick="showTab('features')">Features & Benefits</button>
+                        <button class="tab-btn" onclick="showTab('specs')">Technical Specs</button>
+                        <button class="tab-btn" onclick="showTab('installation')">Installation</button>
+                    </div>
+
+                    <!-- Features Tab -->
+                    <div id="features" class="tab-content active">
+                        <h3 class="section-title">Key Features & Benefits</h3>
+                        <ul class="benefits-list">
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>No excavation required</strong> - surface fixed and tested
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Protects road surface</strong> - prevents scarring and damage
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Large units ensure fast and secure installation</strong>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Can be installed in under 30 minutes</strong>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Can be extended in length with extension pieces</strong>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Tough and flexible construction</strong> for long-term performance
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Optional 50mm reflective glass eyes are available</strong>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="benefit-icon">✓</span>
+                                <div>
+                                    <strong>Range options include fittings</strong> for a wide range of keep left signs, bollards, illuminated posts and a cavity for integral battery box if required
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Specifications Tab -->
+                    <div id="specs" class="tab-content">
+                        <h3 class="section-title">Technical Specifications</h3>
+                        <table class="specs-table">
+                            <tr>
+                                <th>Specification</th>
+                                <th>Details</th>
+                            </tr>
+                            <tr>
+                                <td>Available Widths</td>
+                                <td>1500mm, 1850mm, 2000mm</td>
+                            </tr>
+                            <tr>
+                                <td>Edge Options</td>
+                                <td>Flanged piece (splitter islands) or straight edges</td>
+                            </tr>
+                            <tr>
+                                <td>Construction</td>
+                                <td>High pressure moulded solid unit</td>
+                            </tr>
+                            <tr>
+                                <td>Material</td>
+                                <td>100% recycled rubber</td>
+                            </tr>
+                            <tr>
+                                <td>Installation Time</td>
+                                <td>Under 30 minutes</td>
+                            </tr>
+                            <tr>
+                                <td>Fixing Method</td>
+                                <td>Surface fixed with bolts</td>
+                            </tr>
+                            <tr>
+                                <td>Optional Features</td>
+                                <td>50mm reflective glass eyes, sign mounting plates</td>
+                            </tr>
+                            <tr>
+                                <td>Drainage</td>
+                                <td>Underside channelling for water management</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Installation Tab -->
+                    <div id="installation" class="tab-content">
+                        <h3 class="section-title">Installation Guide</h3>
+                        <p class="product-description">
+                            The one-piece islands can also be used as build-outs, pinch points and pedestrian refuges. Installation is straightforward and can be completed in under 30 minutes:
+                        </p>
+                        <ol style="padding-left: 20px; color: #495057; line-height: 2; font-size: 1.05rem;">
+                            <li>Prepare the road surface - ensure it's clean and dry</li>
+                            <li>Position the traffic island unit in the desired location</li>
+                            <li>Mark drill points through the pre-formed holes</li>
+                            <li>Drill into the road surface</li>
+                            <li>Secure with appropriate fixings</li>
+                            <li>Install any optional features (signs, reflective eyes)</li>
+                            <li>Complete with road markings as required</li>
+                        </ol>
+                        <div style="background: #e3f2fd; padding: 25px; border-radius: 10px; margin-top: 25px;">
+                            <p style="color: #1a365d; margin: 0; font-size: 1.05rem;">
+                                <strong>Note:</strong> Full installation guidelines and technical support are available from our team. Contact us for detailed specifications and site-specific recommendations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="product-cta">
+                    <h3>Ready to Improve Your Traffic Management?</h3>
+                    <p>Get expert advice and pricing for Traffic Islands tailored to your project needs.</p>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="btn-white">Request a Quote</a>
+                        <a href="#" class="btn-outline">Download Datasheet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">Related Products</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-image">📷 Speed Cushions</div>
+                    <div class="related-content">
+                        <h3 class="related-title">Speed Cushions</h3>
+                        <p class="related-description">Easy-install speed control solutions for effective traffic calming without excavation.</p>
+                        <a href="#" class="related-link">Learn more →</a>
+                    </div>
+                </div>
+                <div class="related-card">
+                    <div class="related-image">📷 Pedestrian Refuges</div>
+                    <div class="related-content">
+                        <h3 class="related-title">Pedestrian Refuges</h3>
+                        <p class="related-description">Safe crossing points made from recycled rubber for enhanced pedestrian protection.</p>
+                        <a href="#" class="related-link">Learn more →</a>
+                    </div>
+                </div>
+                <div class="related-card">
+                    <div class="related-image">📷 Lane Separators</div>
+                    <div class="related-content">
+                        <h3 class="related-title">Lane Separators</h3>
+                        <p class="related-description">Versatile lane management solutions for cycle lanes and traffic segregation.</p>
+                        <a href="#" class="related-link">Learn more →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-block">
+                <h2 class="section-title">Get in Touch</h2>
+                <p class="product-description">
+                    If you'd like to learn more about Rosehill Highways or our range of products and services, please get in touch.
+                </p>
+                
+                <form class="contact-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Name *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Company *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone *</label>
+                            <input type="tel" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Town/City *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Postcode</label>
+                            <input type="text" class="form-input">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Product Interest</label>
+                            <select class="form-select">
+                                <option value="">Select a product</option>
+                                <option value="traffic-islands">Traffic Islands</option>
+                                <option value="speed-cushions">Speed Cushions</option>
+                                <option value="lane-separators">Lane Separators</option>
+                                <option value="pedestrian-refuges">Pedestrian Refuges</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-textarea" placeholder="Please provide details about your project or requirements..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Same as homepage -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Company Info</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                    
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">📘</a>
+                        <a href="#" class="social-icon">📺</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#case-studies">Case Studies</a></li>
+                        <li><a href="#sustainability">Sustainability</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+                <div class="accreditation-badges">
+                    <div class="badge">ISO 9001</div>
+                    <div class="badge">ISO 14001</div>
+                    <div class="badge">BBA</div>
+                    <div class="badge">MIRA</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileToggle.addEventListener('click', function() {
+            mobileToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Gallery functionality
+        document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const mainImage = document.querySelector('.main-image');
+                mainImage.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                mainImage.style.color = 'white';
+                mainImage.textContent = 'Selected: ' + this.textContent;
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your inquiry! We will contact you within 24 hours.');
+            this.reset();
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe product elements for animation
+        document.querySelectorAll('.section-block, .related-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+                
