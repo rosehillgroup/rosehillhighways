@@ -992,7 +992,9 @@
 
         @media (max-width: 768px) {
             .product-hero {
-                padding: 100px 0 80px;
+                height: auto;
+                min-height: 500px;
+                padding: 120px 0 40px;
             }
 
             .hero-container {
@@ -1011,8 +1013,24 @@
             }
 
             .speed-features {
-                grid-template-columns: 1fr;
-                gap: 15px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin: 20px 0 30px;
+                padding: 0 10px;
+            }
+            
+            .speed-feature {
+                padding: 12px 8px;
+            }
+            
+            .speed-feature-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .speed-feature span {
+                font-size: 0.85rem;
             }
 
             .color-grid {
