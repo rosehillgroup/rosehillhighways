@@ -192,6 +192,7 @@
                 margin: 10px 0;
                 padding: 20px;
                 border-radius: 8px;
+                display: none;
             }
 
             .mega-menu::before {
@@ -217,6 +218,18 @@
             margin: 3px 0;
             transition: 0.3s;
             border-radius: 2px;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         .mobile-nav-menu {
@@ -252,6 +265,13 @@
         .mobile-nav-menu a.active {
             color: #ff6b35;
             font-weight: 600;
+        }
+        
+        .mobile-nav-menu .contact-btn {
+            text-align: center;
+            width: 100%;
+            display: block;
+            margin-top: 15px;
         }
 
         /* Modern Breadcrumb */
@@ -985,13 +1005,21 @@
             .mobile-menu-toggle {
                 display: flex;
             }
-
-            .hero-container {
-                padding: 100px 20px 0;
+            
+            /* Fix hero section overflow */
+            .product-hero {
+                height: auto;
+                min-height: 500px;
+                padding: 120px 0 40px;
             }
 
-            .hero-container h1 {
-                font-size: 2.5rem;
+            .hero-container {
+                padding: 0 20px;
+            }
+
+            .product-hero h1 {
+                font-size: 2.2rem;
+                letter-spacing: -1px;
             }
 
             .product-tagline {
@@ -1000,8 +1028,23 @@
 
             .speed-features {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-                margin: 30px 0;
+                gap: 12px;
+                margin: 20px 0 30px;
+                padding: 0 10px;
+            }
+            
+            .speed-feature {
+                padding: 12px 8px;
+            }
+            
+            .speed-feature-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .speed-feature span {
+                font-size: 0.85rem;
             }
 
             .content-grid {
@@ -1011,10 +1054,21 @@
 
             .product-images {
                 position: static;
+                margin: 0 -20px;
             }
 
             .main-image {
                 height: 300px;
+                border-radius: 0;
+            }
+            
+            /* Fix content bleeding */
+            .product-content {
+                padding: 40px 0;
+            }
+            
+            .section-block {
+                margin: 0;
             }
 
             .thumbnail {
@@ -1114,31 +1168,6 @@
                 <div class="mobile-nav-menu" id="mobile-menu">
                     <a href="index.html">Home</a>
                     <a href="solutions.html" class="active">Solutions</a>
-                    <div class="mega-menu">
-                        <div class="mega-menu-section">
-                            <h4>Cycle Lane Protection</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
-                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
-                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Islands & Refuges</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
-                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Speed Calming</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
-                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
-                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <a href="case-studies.html">Case Studies</a>
                     <a href="about-us.html">About Us</a>
                     <a href="contact-us.html" class="contact-btn">Get in Touch</a>
@@ -1610,6 +1639,23 @@
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
+        });
+        
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            }
         });
     </script>
 </body>
