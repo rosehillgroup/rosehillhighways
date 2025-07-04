@@ -19,6 +19,7 @@
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -1082,6 +1083,29 @@
             .breadcrumb {
                 display: none;
             }
+            
+            /* Fix content bleeding on mobile */
+            .container {
+                padding: 0 15px;
+                max-width: 100%;
+            }
+            
+            .section-block {
+                padding: 20px 15px;
+                margin: 0 0 20px 0;
+                border-radius: 10px;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+            
+            .section-block h2,
+            .section-block h3,
+            .section-block p {
+                max-width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+            
             /* Center align mobile menu button text */
             .mobile-nav-menu .contact-btn {
                 text-align: center;

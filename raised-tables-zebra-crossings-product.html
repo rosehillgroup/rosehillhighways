@@ -19,6 +19,7 @@
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -267,6 +268,28 @@
             font-weight: 600;
         }
         
+            /* Fix content bleeding on mobile */
+            .container {
+                padding: 0 15px;
+                max-width: 100%;
+            }
+            
+            .section-block {
+                padding: 20px 15px;
+                margin: 0 0 20px 0;
+                border-radius: 10px;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+            
+            .section-block h2,
+            .section-block h3,
+            .section-block p {
+                max-width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+            }
+            
         .mobile-nav-menu .contact-btn {
             text-align: center;
             width: 100%;
@@ -754,6 +777,7 @@
             margin-bottom: 12px;
             color: #495057;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .benefits-list li::before {
@@ -928,6 +952,7 @@
         .related-description {
             color: #6c757d;
             line-height: 1.6;
+            overflow-x: hidden;
             margin-bottom: 18px;
             font-size: 0.95rem;
         }
