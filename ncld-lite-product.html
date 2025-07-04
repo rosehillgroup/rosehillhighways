@@ -13,6 +13,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        html {
+            overflow-x: hidden;
+            width: 100%;
+        }
 
         body {
             font-family: 'Source Sans Pro', sans-serif;
@@ -1085,9 +1090,17 @@
             }
             
             /* Fix content bleeding on mobile */
+            body {
+                overflow-x: hidden;
+                width: 100vw;
+                max-width: 100%;
+            }
+            
             .container {
                 padding: 0 15px;
                 max-width: 100%;
+                width: 100%;
+                overflow-x: hidden;
             }
             
             .section-block {
@@ -1096,6 +1109,8 @@
                 border-radius: 10px;
                 overflow-wrap: break-word;
                 word-wrap: break-word;
+                max-width: 100%;
+                overflow-x: hidden;
             }
             
             .section-block h2,
@@ -1104,6 +1119,18 @@
                 max-width: 100%;
                 overflow-wrap: break-word;
                 word-wrap: break-word;
+            }
+            
+            .product-content {
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .content-grid {
+                overflow-x: hidden;
+                width: 100%;
+                max-width: 100%;
             }
             
             /* Center align mobile menu button text */
