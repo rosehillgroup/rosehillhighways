@@ -13,18 +13,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html {
-            overflow-x: hidden;
-            width: 100%;
-        }
 
         body {
             font-family: 'Source Sans Pro', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -198,7 +192,6 @@
                 margin: 10px 0;
                 padding: 20px;
                 border-radius: 8px;
-                display: none;
             }
 
             .mega-menu::before {
@@ -224,18 +217,6 @@
             margin: 3px 0;
             transition: 0.3s;
             border-radius: 2px;
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         .mobile-nav-menu {
@@ -272,46 +253,254 @@
             color: #ff6b35;
             font-weight: 600;
         }
-        
-            /* Fix content bleeding on mobile */
-            body {
-                overflow-x: hidden;
-                width: 100vw;
-                max-width: 100%;
-            }
-            
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-                width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block {
-                padding: 20px 15px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                max-width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block h2,
-            .section-block h3,
-            .section-block p {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-            
-            .product-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .content-grid {
+
+        /* Modern Breadcrumb */
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-top: 100px;
+            border-bottom: 1px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b35, #1a365d);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            width: 100%;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb-item a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .breadcrumb-separator {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin: 0 4px;
+            opacity: 0.7;
+        }
+
+        .breadcrumb-current {
+            color: #1a365d;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        /* Product Hero - Background image for raised tables */
+        .product-hero {
+            position: relative;
+            height: 550px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(26, 54, 93, 0.7) 50%, rgba(220, 53, 69, 0.3) 100%);
+            z-index: 2;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.8);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-accent {
+            display: inline-block;
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            margin-top: 15px;
+        }
+
+        .product-hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .product-hero h1 span {
+            color: #dc3545;
+            display: inline;
+        }
+
+        .product-tagline {
+            font-size: 1.35rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .speed-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .speed-feature {
+            text-align: center;
+            padding: 15px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .speed-feature:hover {
+            background: rgba(220, 53, 69, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .speed-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            margin: 0 auto 8px;
+        }
+
+        .speed-feature span {
+            font-weight: 600;
+            color: white;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-btn {
+            background: #dc3545;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+        }
+
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
             gap: 60px;
@@ -545,7 +734,6 @@
             margin-bottom: 12px;
             color: #495057;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         .benefits-list li::before {
@@ -720,7 +908,6 @@
         .related-description {
             color: #6c757d;
             line-height: 1.6;
-            overflow-x: hidden;
             margin-bottom: 18px;
             font-size: 0.95rem;
         }
@@ -798,21 +985,13 @@
             .mobile-menu-toggle {
                 display: flex;
             }
-            
-            /* Fix hero section overflow */
-            .product-hero {
-                height: auto;
-                min-height: 500px;
-                padding: 120px 0 40px;
-            }
 
             .hero-container {
-                padding: 0 20px;
+                padding: 100px 20px 0;
             }
 
-            .product-hero h1 {
-                font-size: 2.2rem;
-                letter-spacing: -1px;
+            .hero-container h1 {
+                font-size: 2.5rem;
             }
 
             .product-tagline {
@@ -821,23 +1000,8 @@
 
             .speed-features {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                margin: 20px 0 30px;
-                padding: 0 10px;
-            }
-            
-            .speed-feature {
-                padding: 12px 8px;
-            }
-            
-            .speed-feature-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
-            
-            .speed-feature span {
-                font-size: 0.85rem;
+                gap: 15px;
+                margin: 30px 0;
             }
 
             .content-grid {
@@ -847,21 +1011,10 @@
 
             .product-images {
                 position: static;
-                margin: 0 -20px;
             }
 
             .main-image {
                 height: 300px;
-                border-radius: 0;
-            }
-            
-            /* Fix content bleeding */
-            .product-content {
-                padding: 40px 0;
-            }
-            
-            .section-block {
-                margin: 0;
             }
 
             .thumbnail {
@@ -905,10 +1058,6 @@
 
             .related-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .breadcrumb {
-                display: none;
             }
         }
     </style>
@@ -965,6 +1114,31 @@
                 <div class="mobile-nav-menu" id="mobile-menu">
                     <a href="index.html">Home</a>
                     <a href="solutions.html" class="active">Solutions</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-section">
+                            <h4>Cycle Lane Protection</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Islands & Refuges</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Speed Calming</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <a href="case-studies.html">Case Studies</a>
                     <a href="about-us.html">About Us</a>
                     <a href="contact-us.html" class="contact-btn">Get in Touch</a>
@@ -1436,23 +1610,6 @@
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
-        });
-        
-        // Mobile menu toggle
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileToggle.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!mobileToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
-                mobileMenu.classList.remove('active');
-                mobileToggle.classList.remove('active');
-            }
         });
     </script>
 </body>

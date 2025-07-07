@@ -13,18 +13,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html {
-            overflow-x: hidden;
-            width: 100%;
-        }
 
         body {
             font-family: 'Source Sans Pro', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -203,46 +197,322 @@
             .mega-menu::before {
                 display: none;
             }
-            /* Center align mobile menu button text */
-            /* Fix content bleeding on mobile */
-            body {
-                overflow-x: hidden;
-                width: 100vw;
-                max-width: 100%;
-            }
-            
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-                width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block {
-                padding: 20px 15px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                max-width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block h2,
-            .section-block h3,
-            .section-block p {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-            
-            .product-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .content-grid {
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Modern Breadcrumb */
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-top: 100px;
+            border-bottom: 1px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b35, #1a365d);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            width: 100%;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb-item a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .breadcrumb-separator {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin: 0 4px;
+            opacity: 0.7;
+        }
+
+        .breadcrumb-current {
+            color: #1a365d;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        /* Product Hero - Background image for refuges */
+        .product-hero {
+            position: relative;
+            height: 550px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(26, 54, 93, 0.7) 50%, rgba(40, 167, 69, 0.3) 100%);
+            z-index: 2;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.8);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-text {
+            position: relative;
+        }
+
+        .hero-accent {
+            display: inline-block;
+            background: rgba(40, 167, 69, 0.9);
+            color: white;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+            margin-top: 15px;
+        }
+
+        .product-hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.8rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .product-hero h1 span {
+            color: #28a745;
+            display: inline;
+        }
+
+        .product-tagline {
+            font-size: 1.35rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .safety-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .safety-stat {
+            text-align: center;
+            padding: 12px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .safety-stat:hover {
+            background: rgba(40, 167, 69, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .safety-stat-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .safety-stat h3 {
+            font-family: 'Overpass', sans-serif;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .safety-stat p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
@@ -418,7 +688,6 @@
             margin-bottom: 15px;
             color: #495057;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         .benefits-list li::before {
@@ -646,7 +915,6 @@
             color: #6c757d;
             font-size: 0.95rem;
             line-height: 1.6;
-            overflow-x: hidden;
             margin-bottom: 20px;
         }
 
@@ -775,43 +1043,602 @@
             .breadcrumb {
                 display: none;
             }
-            /* Center align mobile menu button text */
-            /* Fix content bleeding on mobile */
-            body {
-                overflow-x: hidden;
-                width: 100vw;
-                max-width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .product-hero h1 {
+                font-size: 2.2rem;
             }
-            
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-                width: 100%;
-                overflow-x: hidden;
+
+            .hero-btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
             }
-            
-            .section-block {
-                padding: 20px 15px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                max-width: 100%;
-                overflow-x: hidden;
+
+            .breadcrumb-list {
+                flex-wrap: wrap;
+                gap: 10px;
             }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="solutions.html" class="active">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="solutions.html" class="active">Solutions</a>
+                    <div class="mega-menu">
+                        <div class="mega-menu-section">
+                            <h4>Cycle Lane Protection</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Islands & Refuges</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-section">
+                            <h4>Speed Calming</h4>
+                            <ul class="mega-menu-links">
+                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="case-studies.html">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-list" aria-label="Breadcrumb">
+                <div class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <a href="solutions.html#islands-refuges">Islands & Refuges</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <span class="breadcrumb-current">Pedestrian Refuges</span>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="hero-background">
+            <img src="pedestrian_refuge_hero.jpg" alt="Pedestrian Refuges background" onerror="this.style.display='none'">
+        </div>
+        <div class="hero-container">
+            <span class="hero-accent">Safe Crossing</span>
+            <h1>Pedestrian <span>Refuges</span></h1>
+            <p class="product-tagline">Complete refuge islands installed in half a day. Safe crossing solutions when full pedestrian crossings can't be justified, with surface-mounted tactile integration.</p>
             
-            .section-block h2,
-            .section-block h3,
-            .section-block p {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
+            <div class="safety-stats">
+                <div class="safety-stat">
+                    <div class="safety-stat-icon">⛑</div>
+                    <h3>Safe Haven</h3>
+                    <p>Secure stopping point</p>
+                </div>
+                <div class="safety-stat">
+                    <div class="safety-stat-icon">↔</div>
+                    <h3>Two-Stage</h3>
+                    <p>Phased crossing</p>
+                </div>
+                <div class="safety-stat">
+                    <div class="safety-stat-icon">⚡</div>
+                    <h3>Half Day</h3>
+                    <p>Quick installation</p>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="#safety-features" class="hero-btn">Safety Features →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Content -->
+    <section class="product-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="pedestrian_refuge_web_01.jpg" alt="City Centre Pedestrian Refuges" onerror="this.parentElement.innerHTML='📷 Pedestrian Refuge Product Image'">
+                    </div>
+                    <div class="image-thumbnails">
+                        <div class="thumbnail active">
+                            <img src="pedestrian_refuge_web_01.jpg" alt="Pedestrian Refuge Overview" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="pedestrian_refuge_web_02.jpg" alt="Tactile Integration" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="pedestrian_refuge_web_03.jpg" alt="Refuge Post & Beacon" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="product-details">
+                    <!-- Safety Features -->
+                    <div class="section-block safety-features" id="safety-features">
+                        <h2>Safety Features</h2>
+                        <p>Our pedestrian refuges use the same proven traffic island technology, specifically configured for pedestrian safety with integrated tactile surfaces and optional beacon systems.</p>
+                        
+                        <div class="safety-grid">
+                            <div class="safety-feature">
+                                <div class="safety-icon">
+                                    <img src="Icons/Glyph/Shield with Checkmark,protection, security, quality, assurance, verified.svg" alt="Secure Island" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="safety-content">
+                                    <h4>Secure Island</h4>
+                                    <p>Robust rubber construction provides reliable safe haven between traffic lanes</p>
+                                </div>
+                            </div>
+                            <div class="safety-feature">
+                                <div class="safety-icon">
+                                    <img src="Icons/Glyph/road, street, path, travel, journey.svg" alt="Tactile Integration" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="safety-content">
+                                    <h4>Tactile Integration</h4>
+                                    <p>Surface-mounted tactile paving for visual impairment accessibility</p>
+                                </div>
+                            </div>
+                            <div class="safety-feature">
+                                <div class="safety-icon">
+                                    <img src="Icons/Glyph/solar panel, panel, energy, renewable, eco-friendly.svg" alt="Solar Beacon" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="safety-content">
+                                    <h4>Solar Beacon</h4>
+                                    <p>Optional cable-less solar-powered beacon with refuge post</p>
+                                </div>
+                            </div>
+                            <div class="safety-feature">
+                                <div class="safety-icon">
+                                    <img src="Icons/Glyph/fast delivery, rocket shipping, express service, speed courier, quick transport.svg" alt="Rapid Installation" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="safety-content">
+                                    <h4>Rapid Installation</h4>
+                                    <p>Complete refuge can be installed in half a day with minimal disruption</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>Pedestrian refuges help improve safety where individuals need to cross busy roads that are too wide to cross safely in one phase, providing essential refuge after crossing one lane of traffic.</p>
+                    </div>
+
+                    <!-- Tabbed Content -->
+                    <div class="section-block">
+                        <h2>Product Details</h2>
+                        <div class="tabbed-content">
+                            <div class="tab-nav">
+                                <button class="tab-btn active" data-tab="features">Features & Benefits</button>
+                                <button class="tab-btn" data-tab="specifications">Technical Specifications</button>
+                                <button class="tab-btn" data-tab="applications">Applications</button>
+                            </div>
+
+                            <!-- Features & Benefits Tab -->
+                            <div class="tab-content active" id="features">
+                                <h3>Key Features & Benefits</h3>
+                                <ul class="benefits-list">
+                                    <li>Complete pedestrian refuge island installed in half a day</li>
+                                    <li>No excavation required – surface fixed and bolted</li>
+                                    <li>Solid rubber construction in one or two pieces</li>
+                                    <li>Surface-mounted tactile integration for accessibility</li>
+                                    <li>Optional refuge post with cable-less solar powered beacon</li>
+                                    <li>Design options for bollards, keep left signs, and lighting</li>
+                                    <li>Cavity for integral battery box if required</li>
+                                    <li>Tough and flexible construction follows road contours</li>
+                                    <li>Can be extended length and width-ways with extension pieces</li>
+                                    <li>Optional 50mm reflective glass eyes available</li>
+                                    <li>Heritage paver pattern available for aesthetic areas</li>
+                                    <li>Made from 100% recycled tyre rubber</li>
+                                    <li>Ideal solution when full pedestrian crossing can't be justified</li>
+                                    <li>Significant cost and time benefits over constructed alternatives</li>
+                                </ul>
+                                <p>All Rosehill traffic islands can be configured to form pedestrian refuge islands, providing a cost-effective and rapid solution for pedestrian safety improvements.</p>
+                            </div>
+
+                            <!-- Technical Specifications Tab -->
+                            <div class="tab-content" id="specifications">
+                                <h3>Technical Specifications</h3>
+                                <p>Pedestrian refuges use the same robust island construction with pedestrian-specific features:</p>
+                                
+                                <div class="table-section">
+                                    <div class="table-title">One-Piece Refuges (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>180</td>
+                                                <td>L: 1200 W: 1200</td>
+                                                <td>RI-1200</td>
+                                            </tr>
+                                            <tr>
+                                                <td>230</td>
+                                                <td>L: 1000 W: 2000</td>
+                                                <td>RI-1200 S</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-section">
+                                    <div class="table-title">Heritage Pattern (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>180</td>
+                                                <td>L: 1200 W: 1200</td>
+                                                <td>RI-1200H</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-section">
+                                    <div class="table-title">Two-Piece Refuges (130mm height)</div>
+                                    <table class="specs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Weight (kg)</th>
+                                                <th>Dimensions (mm)</th>
+                                                <th>Product Code</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>150</td>
+                                                <td>L: 1500 W: 1500</td>
+                                                <td>RI-1500</td>
+                                            </tr>
+                                            <tr>
+                                                <td>210</td>
+                                                <td>L: 1800 W: 1800</td>
+                                                <td>RI-1800</td>
+                                            </tr>
+                                            <tr>
+                                                <td>260</td>
+                                                <td>L: 2000 W: 2000</td>
+                                                <td>RI-2000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <h4>Pedestrian-Specific Features</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>Tactile Surfaces:</strong> Surface-mounted tactile paving integration</li>
+                                    <li><strong>Beacon System:</strong> Optional cable-less solar powered beacon</li>
+                                    <li><strong>Refuge Post:</strong> Dedicated mounting for pedestrian signage</li>
+                                    <li><strong>Accessibility:</strong> Compliant with pedestrian crossing guidelines</li>
+                                    <li><strong>Visibility:</strong> Enhanced lighting and reflective options</li>
+                                    <li><strong>Material:</strong> 100% recycled tyre rubber construction</li>
+                                </ul>
+                            </div>
+
+                            <!-- Applications Tab -->
+                            <div class="tab-content" id="applications">
+                                <h3>Applications</h3>
+                                <p>Pedestrian refuges provide essential crossing assistance in challenging traffic environments:</p>
+                                
+                                <h4>When to Use Pedestrian Refuges</h4>
+                                <ul class="benefits-list">
+                                    <li>Roads too wide to cross safely in one phase</li>
+                                    <li>Heavy traffic on both lanes requiring staged crossing</li>
+                                    <li>Locations where full pedestrian crossings can't be justified</li>
+                                    <li>High pedestrian demand with moderate vehicle flow</li>
+                                    <li>School routes requiring enhanced crossing safety</li>
+                                    <li>Elderly or mobility-impaired pedestrian areas</li>
+                                    <li>Shopping districts with regular foot traffic</li>
+                                    <li>Public transport stops requiring road crossing</li>
+                                </ul>
+
+                                <h4>Design Considerations</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>Road Width:</strong> Minimum refuge width for safe standing</li>
+                                    <li><strong>Traffic Speed:</strong> Appropriate for areas with controlled speeds</li>
+                                    <li><strong>Visibility:</strong> Clear sight lines in both directions</li>
+                                    <li><strong>Accessibility:</strong> Tactile paving and level access requirements</li>
+                                    <li><strong>Lighting:</strong> Optional beacon for enhanced visibility</li>
+                                    <li><strong>Maintenance:</strong> Easy access for cleaning and upkeep</li>
+                                </ul>
+
+                                <h4>Typical Installations</h4>
+                                <ul class="benefits-list">
+                                    <li>Urban high streets with mixed traffic</li>
+                                    <li>Suburban roads near schools and community facilities</li>
+                                    <li>Bus route crossings and transport interchanges</li>
+                                    <li>Shopping centre access routes</li>
+                                    <li>Hospital and healthcare facility approaches</li>
+                                    <li>Elderly care facility surroundings</li>
+                                </ul>
+
+                                <p>Pedestrian refuges are typically used when roads are too wide to cross safely and heavy traffic uses both lanes, requiring pedestrians to have safe refuge after crossing one lane before continuing to the next.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="cta-section">
+                        <h3>Ready to Improve Pedestrian Safety?</h3>
+                        <p>Contact our team to discuss your pedestrian refuge requirements and create safer crossing solutions for your community.</p>
+                        <div class="cta-buttons">
+                            <a href="contact-us.html" class="btn-white">Request Quote</a>
+                            <a href="#" class="btn-white">Download Datasheet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Related Products</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="traffic_island_web.jpg" alt="Traffic Islands" onerror="this.parentElement.innerHTML='📷 Traffic Islands'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Traffic Islands</h3>
+                        <p class="related-description">The same robust island technology configured for traffic management and junction control applications.</p>
+                        <a href="traffic-islands-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="ncld_lite_web.jpg" alt="Cycle Lane Defenders" onerror="this.parentElement.innerHTML='📷 Cycle Protection'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Cycle Lane Defenders</h3>
+                        <p class="related-description">Complement pedestrian refuges with dedicated cycle lane protection for comprehensive active travel infrastructure.</p>
+                        <a href="ncld-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="speed_cushion_web.jpg" alt="Speed Cushions" onerror="this.parentElement.innerHTML='📷 Speed Management'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Speed Cushions</h3>
+                        <p class="related-description">Traffic calming solutions that work alongside pedestrian refuges to create safer crossing environments.</p>
+                        <a href="speed-cushions-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Product Categories</h3>
+                    <ul>
+                        <li><a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a></li>
+                        <li><a href="solutions.html#islands-refuges">Islands & Refuges</a></li>
+                        <li><a href="solutions.html#speed-calming">Speed Calming</a></li>
+                        <li><a href="solutions.html#drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
             }
-            
-            .product-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .content-grid {
+        });
+
+        // Image thumbnail functionality
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.querySelector('.main-image img');
+
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // Update main image source
+                const thumbImg = this.querySelector('img');
+                if (thumbImg && mainImage) {
+                    mainImage.src = thumbImg.src;
+                    mainImage.alt = thumbImg.alt;
+                }
+            });
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.section-block, .related-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

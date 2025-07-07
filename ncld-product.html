@@ -13,18 +13,12 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
-        html {
-            overflow-x: hidden;
-            width: 100%;
-        }
 
         body {
             font-family: 'Source Sans Pro', sans-serif;
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* Header Styles */
@@ -203,46 +197,297 @@
             .mega-menu::before {
                 display: none;
             }
-            /* Center align mobile menu button text */
-            /* Fix content bleeding on mobile */
-            body {
-                overflow-x: hidden;
-                width: 100vw;
-                max-width: 100%;
-            }
-            
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-                width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block {
-                padding: 20px 15px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                max-width: 100%;
-                overflow-x: hidden;
-            }
-            
-            .section-block h2,
-            .section-block h3,
-            .section-block p {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-            
-            .product-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
-            }
-            
-            .content-grid {
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Modern Breadcrumb */
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-top: 100px;
+            border-bottom: 1px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b35, #1a365d);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            width: 100%;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb-item a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .breadcrumb-separator {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin: 0 4px;
+            opacity: 0.7;
+        }
+
+        .breadcrumb-current {
+            color: #1a365d;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        /* Product Hero */
+        .product-hero {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.85) 0%, rgba(26, 54, 93, 0.65) 50%, rgba(255, 107, 53, 0.2) 100%);
+            z-index: 2;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: 1;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.9);
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            width: 100%;
+        }
+
+        .hero-text {
+            max-width: 750px;
+            position: relative;
+        }
+
+        .hero-accent {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .product-hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+        }
+
+        .product-hero h1 span {
+            color: #ff6b35;
+            display: inline;
+        }
+
+        .product-tagline {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.4rem;
+            font-weight: 600;
+            color: #ff6b35;
+            display: block;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 80px;
@@ -394,7 +639,6 @@
             margin-bottom: 15px;
             color: #495057;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         .benefits-list li::before {
@@ -624,7 +868,6 @@
             color: #6c757d;
             font-size: 0.95rem;
             line-height: 1.6;
-            overflow-x: hidden;
             margin-bottom: 20px;
         }
 
@@ -774,43 +1017,548 @@
             .breadcrumb {
                 display: none;
             }
-            /* Center align mobile menu button text */
-            /* Fix content bleeding on mobile */
-            body {
-                overflow-x: hidden;
-                width: 100vw;
-                max-width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .product-hero {
+                padding: 60px 0;
             }
-            
-            .container {
-                padding: 0 15px;
-                max-width: 100%;
-                width: 100%;
-                overflow-x: hidden;
+
+            .product-hero h1 {
+                font-size: 1.8rem;
             }
-            
-            .section-block {
-                padding: 20px 15px;
-                margin: 0 0 20px 0;
-                border-radius: 10px;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-                max-width: 100%;
-                overflow-x: hidden;
+
+            .hero-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
             }
-            
-            .section-block h2,
-            .section-block h3,
-            .section-block p {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
+
+            .hero-stats {
+                flex-wrap: wrap;
+                justify-content: center;
             }
-            
-            .product-content {
-                overflow-x: hidden;
-                width: 100%;
-                max-width: 100%;
+
+            .stat-item {
+                flex: 0 0 33.333%;
             }
+
+            .breadcrumb-list {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="solutions.html" class="active">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="solutions.html" class="active">Solutions</a>
+                    <a href="case-studies.html">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-list" aria-label="Breadcrumb">
+                <div class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <span class="breadcrumb-current">Narrow Cycle Lane Defenders</span>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="hero-background">
+            <img src="ncld_hero.jpg" alt="Narrow Cycle Lane Defenders background" onerror="this.style.display='none'">
+        </div>
+        <div class="hero-container">
+            <div class="hero-text">
+                <span class="hero-accent">Cycle Lane Protection</span>
+                <h1>Narrow Cycle Lane <span>Defenders</span></h1>
+                <p class="product-tagline">Robust surface-mounted segregation units providing safe separation between vehicles and cyclists, with quick installation and flexible deployment options.</p>
+                <div class="hero-cta">
+                    <a href="#specifications" class="hero-btn">View Specifications →</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">130mm</span>
+                        <span class="stat-label">Height</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Recycled</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2m</span>
+                        <span class="stat-label">Length</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Content -->
+    <section class="product-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="ncld_web_01.jpg" alt="Narrow Cycle Lane Defenders installed on road" onerror="this.parentElement.innerHTML='📷 NCLD Product Image'">
+                    </div>
+                    <div class="image-thumbnails">
+                        <div class="thumbnail active">
+                            <img src="ncld_web_01.jpg" alt="NCLD Overview" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="highways_ncld_edinburgh.jpg" alt="NCLD Installation" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="ncld_web_02.jpg" alt="NCLD in Use" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="product-details">
+                    <!-- Overview -->
+                    <div class="section-block">
+                        <h2>Product Overview</h2>
+                        <p>Rosehill Highways' Narrow Cycle Lane Defenders provide robust, surface-mounted separation between vehicles and cyclists, enhancing safety through either continuous or light segregation.</p>
+                        <p>Designed in line with Cycling England and Sustrans guidelines, our units support the creation of 2.0m-wide cycle lanes wherever possible, with a minimum width of 1.5m.</p>
+                        <p>Manufactured in the UK from 100% recycled tyre rubber, these long rubber units are quick to install, highly durable, and ideal for permanent or trial schemes in urban and suburban environments.</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <img src="Icons/Glyph/fast delivery, rocket shipping, express service, speed courier, quick transport.svg" alt="Quick Installation" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Quick Installation</h4>
+                                    <p>Surface-mounted with no excavation required</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <img src="Icons/Glyph/connection strength, partnership, unity, bond, problem-solving.svg" alt="Modular Design" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Modular Design</h4>
+                                    <p>Extendable to any required length</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <img src="Icons/Glyph/recycle, arrow, cycle, direction, loop.svg" alt="100% Recycled" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="feature-content">
+                                    <h4>100% Recycled</h4>
+                                    <p>Made from recycled tyre rubber</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <img src="Icons/Glyph/Car,  automobile,  drive,  transport,  road.svg" alt="Impact Resistant" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Impact Resistant</h4>
+                                    <p>Durable solid rubber construction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabbed Content -->
+                    <div class="section-block">
+                        <h2>Product Details</h2>
+                        <div class="tabbed-content">
+                            <div class="tab-nav">
+                                <button class="tab-btn active" data-tab="features">Features & Benefits</button>
+                                <button class="tab-btn" data-tab="specifications">Technical Specifications</button>
+                                <button class="tab-btn" data-tab="applications">Applications</button>
+                            </div>
+
+                            <!-- Features & Benefits Tab -->
+                            <div class="tab-content active" id="features">
+                                <h3>Key Features & Benefits</h3>
+                                <ul class="benefits-list">
+                                    <li>Suitable for continuous or intermittent segregation</li>
+                                    <li>Surface-mounted—no excavation required</li>
+                                    <li>Fast to install and easily retrofitted into existing schemes</li>
+                                    <li>Durable, solid rubber construction with excellent impact resistance</li>
+                                    <li>Units can be swiftly removed and replaced if dislodged or damaged</li>
+                                    <li>Modular design—extendable to any required length</li>
+                                    <li>Optional 50mm reflective glass eyes for increased visibility</li>
+                                    <li>Compatible with a wide range of keep-left signs and reflective bollards</li>
+                                    <li>Supports cycle bypasses, build-outs, and pinch points</li>
+                                </ul>
+                                <p>Rosehill Cycle Lane Defenders are engineered for flexible deployment across a range of highway layouts, helping to improve cyclist confidence, reduce incursions, and promote safer cycling as part of modern active travel infrastructure.</p>
+                            </div>
+
+                            <!-- Technical Specifications Tab -->
+                            <div class="tab-content" id="specifications">
+                                <h3>Technical Specifications</h3>
+                                <p>All units feature a standard height of 130mm for optimal visibility and impact protection:</p>
+                                
+                                <table class="specs-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Unit Type</th>
+                                            <th>Weight (kg)</th>
+                                            <th>Dimensions (mm)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>End Section</strong></td>
+                                            <td>60</td>
+                                            <td>L: 2000 W: 235</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Continuation Unit</strong></td>
+                                            <td>60</td>
+                                            <td>L: 2000 W: 235</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Double End</strong></td>
+                                            <td>60</td>
+                                            <td>L: 2000 W: 235</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>NCLD Lite</strong></td>
+                                            <td>24</td>
+                                            <td>L: 1000 W: 235</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h4>Additional Specifications</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>Height:</strong> 130mm (all units)</li>
+                                    <li><strong>Material:</strong> 100% recycled tyre rubber</li>
+                                    <li><strong>Colour:</strong> Standard black (other colours available)</li>
+                                    <li><strong>Reflective Elements:</strong> Optional 50mm glass eyes</li>
+                                    <li><strong>Installation:</strong> Surface-mounted with structural adhesive</li>
+                                    <li><strong>Standards:</strong> Compliant with Cycling England and Sustrans guidelines</li>
+                                </ul>
+                            </div>
+
+                            <!-- Applications Tab -->
+                            <div class="tab-content" id="applications">
+                                <h3>Applications</h3>
+                                <p>Narrow Cycle Lane Defenders are ideal for a wide range of cycling infrastructure projects:</p>
+                                
+                                <h4>Urban Environments</h4>
+                                <ul class="benefits-list">
+                                    <li>City centre cycle lane protection</li>
+                                    <li>Retrofit projects on existing roads</li>
+                                    <li>Trial scheme implementations</li>
+                                    <li>School route safety improvements</li>
+                                </ul>
+
+                                <h4>Suburban Applications</h4>
+                                <ul class="benefits-list">
+                                    <li>Residential area cycle lanes</li>
+                                    <li>Mixed-use development access routes</li>
+                                    <li>Park and leisure facility connections</li>
+                                    <li>Public transport integration points</li>
+                                </ul>
+
+                                <h4>Specialised Uses</h4>
+                                <ul class="benefits-list">
+                                    <li>Cycle bypasses at junctions</li>
+                                    <li>Build-out installations</li>
+                                    <li>Pinch point traffic management</li>
+                                    <li>Temporary event cycle routes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="cta-section">
+                        <h3>Ready to Protect Your Cycle Lanes?</h3>
+                        <p>Get in touch with our team to discuss your cycle lane segregation requirements and receive a tailored quote.</p>
+                        <div class="cta-buttons">
+                            <a href="contact-us.html" class="btn-white">Request Quote</a>
+                            <a href="#" class="btn-white">Download Datasheet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Related Products</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="lane_separators_web.jpg" alt="Lane Separators" onerror="this.parentElement.innerHTML='📷 Lane Separators'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Lane Separators</h3>
+                        <p class="related-description">Modular rubber units providing flexible lane segregation for wider cycle lanes and complex layouts.</p>
+                        <a href="lane-separator-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="traffic_island_web.jpg" alt="Traffic Islands" onerror="this.parentElement.innerHTML='📷 Traffic Islands'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Traffic Islands</h3>
+                        <p class="related-description">Pre-formed islands supporting cycle infrastructure at junctions and complex intersections.</p>
+                        <a href="traffic-islands-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="keswick_refuge.jpg" alt="Pedestrian Refuges" onerror="this.parentElement.innerHTML='📷 Pedestrian Refuges'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Pedestrian Refuges</h3>
+                        <p class="related-description">Safe crossing points that work alongside cycle infrastructure to create comprehensive active travel routes.</p>
+                        <a href="pedestrian-refuges-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Product Categories</h3>
+                    <ul>
+                        <li><a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a></li>
+                        <li><a href="solutions.html#islands-refuges">Islands & Refuges</a></li>
+                        <li><a href="solutions.html#speed-calming">Speed Calming</a></li>
+                        <li><a href="solutions.html#drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
             
-            .content-grid {
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                
+                if (target) {
+                    // If clicking on specifications link, activate the specifications tab first
+                    if (targetId === 'specifications') {
+                        const specTab = document.querySelector('[data-tab="specifications"]');
+                        if (specTab) {
+                            specTab.click();
+                        }
+                    }
+                    
+                    // Scroll to the parent section that contains the tabs
+                    const parentSection = target.closest('.section-block');
+                    if (parentSection) {
+                        parentSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    } else {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Image thumbnail functionality
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.querySelector('.main-image img');
+
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // Update main image source
+                const thumbImg = this.querySelector('img');
+                if (thumbImg && mainImage) {
+                    mainImage.src = thumbImg.src;
+                    mainImage.alt = thumbImg.alt;
+                }
+            });
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.section-block, .related-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
