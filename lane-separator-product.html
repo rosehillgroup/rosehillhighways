@@ -669,12 +669,14 @@
         /* Specifications Table */
         .specs-table {
             width: 100%;
+            max-width: 100%;
             border-collapse: collapse;
             margin: 25px 0;
             background: white;
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid #e9ecef;
+            box-sizing: border-box;
         }
 
         .specs-table th,
@@ -1188,10 +1190,14 @@
             .product-images {
                 position: static;
                 order: -1;
+                width: 100%;
+                max-width: 100%;
             }
 
             .main-image {
                 height: 300px;
+                width: 100%;
+                max-width: 100%;
             }
 
             .image-thumbnails {
@@ -1205,7 +1211,7 @@
 
             .section-block {
                 padding: 20px;
-                margin: 0 -5px;
+                margin: 0;
             }
 
             .features-grid {
@@ -1302,10 +1308,15 @@
             .section-block {
                 padding: 15px;
                 margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
             }
 
             .main-image {
                 height: 250px;
+                width: 100%;
+                max-width: 100%;
             }
 
             .thumbnail {
@@ -1329,6 +1340,54 @@
 
             .config-card {
                 padding: 20px;
+            }
+
+            /* Ensure all content elements are constrained */
+            .product-details {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .cta-section {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Make specs table more mobile-friendly */
+            .specs-table {
+                font-size: 0.85rem;
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .specs-table thead,
+            .specs-table tbody,
+            .specs-table tr {
+                display: block;
+            }
+
+            .specs-table tr {
+                border: 1px solid #e9ecef;
+                margin-bottom: 5px;
+                padding: 10px;
+                border-radius: 8px;
+                white-space: normal;
+            }
+
+            .specs-table th,
+            .specs-table td {
+                display: block;
+                padding: 5px 0;
+                border: none;
+                text-align: left;
+            }
+
+            .specs-table th {
+                font-weight: bold;
+                background: none;
             }
         }
     </style>
@@ -1385,31 +1444,6 @@
                 <div class="mobile-nav-menu" id="mobile-menu">
                     <a href="index.html">Home</a>
                     <a href="solutions.html" class="active">Solutions</a>
-                    <div class="mega-menu">
-                        <div class="mega-menu-section">
-                            <h4>Cycle Lane Protection</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
-                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
-                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Islands & Refuges</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
-                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Speed Calming</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
-                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
-                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <a href="case-studies.html">Case Studies</a>
                     <a href="about-us.html">About Us</a>
                     <a href="contact-us.html" class="contact-btn">Get in Touch</a>
