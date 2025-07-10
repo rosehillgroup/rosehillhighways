@@ -1292,9 +1292,17 @@
             .tab-btn {
                 padding: 12px 20px;
                 font-size: 0.9rem;
+                white-space: normal;
+                flex-shrink: 1;
+                min-width: auto;
+                text-align: center;
             }
 
             .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 5px;
+                justify-content: center;
                 margin-bottom: 25px;
                 padding-bottom: 5px;
             }
@@ -1394,6 +1402,17 @@
                 padding: 10px 15px;
                 font-size: 0.85rem;
                 min-width: auto;
+                white-space: normal;
+                flex-shrink: 1;
+                text-align: center;
+                flex: 1;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 8px;
+                justify-content: center;
             }
 
             .feature-item {
