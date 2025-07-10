@@ -504,6 +504,8 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Product Content Grid */
@@ -517,11 +519,17 @@
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: start;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .product-images {
             position: sticky;
             top: 120px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .main-image {
@@ -572,6 +580,9 @@
             display: flex;
             flex-direction: column;
             gap: 40px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .section-block {
@@ -990,9 +1001,97 @@
             .mobile-menu-toggle {
                 display: flex;
             }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-images {
+                position: static;
+                order: -1;
+            }
         }
 
         @media (max-width: 768px) {
+            /* Ensure viewport constraints */
+            html, body {
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+
+            /* Force everything to be contained */
+            .content-grid {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .content-grid > * {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+
+            /* Fix tab navigation */
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                white-space: normal;
+                flex-shrink: 1;
+                min-width: auto;
+                text-align: center;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 5px;
+                justify-content: center;
+                margin-bottom: 25px;
+                padding-bottom: 5px;
+            }
+
+            /* Ensure all content elements are constrained */
+            .product-details {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .cta-section {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .product-images {
+                position: static;
+                order: -1;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .main-image {
+                height: 300px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .section-block {
+                padding: 20px;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Center align mobile menu button text */
+            .mobile-nav-menu .contact-btn {
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+
             .product-hero {
                 height: auto;
                 padding: 100px 0 80px;
@@ -1018,19 +1117,6 @@
                 gap: 20px;
             }
 
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-
-            .product-images {
-                position: static;
-            }
-
-            .section-block {
-                padding: 25px;
-            }
-
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -1046,6 +1132,43 @@
         }
 
         @media (max-width: 480px) {
+            /* Force critical layout elements to respect screen width */
+            .content-grid,
+            .product-images,
+            .product-details,
+            .main-image,
+            .section-block,
+            .cta-section {
+                max-width: 100vw;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+                min-width: auto;
+                white-space: normal;
+                flex-shrink: 1;
+                text-align: center;
+                flex: 1;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .section-block {
+                padding: 15px;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
             .product-hero h1 {
                 font-size: 2.2rem;
             }
@@ -1114,31 +1237,6 @@
                 <div class="mobile-nav-menu" id="mobile-menu">
                     <a href="index.html">Home</a>
                     <a href="solutions.html" class="active">Solutions</a>
-                    <div class="mega-menu">
-                        <div class="mega-menu-section">
-                            <h4>Cycle Lane Protection</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="ncld-product.html">NCLD Defenders</a></li>
-                                <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
-                                <li><a href="lane-separator-product.html">Lane Separators</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Islands & Refuges</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
-                                <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu-section">
-                            <h4>Speed Calming</h4>
-                            <ul class="mega-menu-links">
-                                <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
-                                <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
-                                <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
-                            </ul>
-                        </div>
-                    </div>
                     <a href="case-studies.html">Case Studies</a>
                     <a href="about-us.html">About Us</a>
                     <a href="contact-us.html" class="contact-btn">Get in Touch</a>
