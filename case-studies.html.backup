@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies - Rosehill Highways</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Source Sans Pro', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+
+        /* Mega Menu Styles */
+        .nav-menu li {
+            position: relative;
+        }
+
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            min-width: 320px;
+            max-width: 350px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            margin-top: 15px;
+        }
+
+        .nav-menu li:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu-section {
+            margin-bottom: 20px;
+        }
+
+        .mega-menu-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .mega-menu-section h4 {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mega-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mega-menu-links li {
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .mega-menu-links li:last-child {
+            border-bottom: none;
+        }
+
+        .mega-menu-links a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .mega-menu-links a:hover {
+            color: #ff6b35;
+            padding-left: 8px;
+        }
+
+        .mega-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        /* Mobile Mega Menu Styles */
+        @media (max-width: 768px) {
+            .mega-menu {
+                position: static;
+                transform: none;
+                min-width: auto;
+                max-width: none;
+                width: 100%;
+                margin: 10px 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .mega-menu::before {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 140px 0 100px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 70px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('rosehill_illustration_web.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(26, 54, 93, 0.85) 0%, 
+                rgba(45, 74, 113, 0.75) 50%,
+                rgba(26, 54, 93, 0.85) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2.6rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: #ff6b35;
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            color: #1a365d;
+            border: 2px solid #e9ecef;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+            transform: translateY(-2px);
+        }
+
+        /* Case Studies Grid */
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .case-study-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .case-study-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .case-study-image {
+            height: 250px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-study-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .case-study-card:hover .case-study-image img {
+            transform: scale(1.05);
+        }
+
+        .case-study-content {
+            padding: 25px;
+        }
+
+        .case-study-location {
+            color: #ff6b35;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .case-study-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .case-study-overview {
+            color: #6c757d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .products-used {
+            margin-bottom: 20px;
+        }
+
+        .products-label {
+            font-weight: 600;
+            color: #1a365d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .product-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #e9ecef;
+        }
+
+
+        .read-more-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .read-more-btn:hover {
+            background: #e55a2b;
+            transform: translateX(5px);
+        }
+
+
+        /* CTA Section */
+        .cta-section {
+            background: #ff6b35;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .btn-white {
+            background: white;
+            color: #ff6b35;
+            padding: 18px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .case-studies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .case-studies-grid {
+                gap: 20px;
+            }
+
+            .case-study-content {
+                padding: 20px;
+            }
+
+
+            .filter-buttons {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="solutions.html">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#case-studies" class="active">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="solutions.html">Solutions</a>
+                    <a href="#case-studies" class="active">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Case Studies</h1>
+            <p>Real-world applications of our innovative traffic management solutions, demonstrating proven results around the world.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="section">
+        <div class="container">
+            <h2 class="section-title">Proven Results</h2>
+            <p class="section-subtitle">Explore how our innovative traffic management solutions have transformed roads and improved safety across various UK projects</p>
+
+            <!-- Filter Buttons -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="cycle">Cycle Lanes</button>
+                <button class="filter-btn" data-filter="speed">Speed Calming</button>
+                <button class="filter-btn" data-filter="islands">Islands & Refuges</button>
+                <button class="filter-btn" data-filter="drainage">Drainage</button>
+            </div>
+
+            <!-- Case Studies Grid -->
+            <div class="case-studies-grid">
+                <!-- Case Study 1: Blackpool Speed Cushions -->
+                <div class="case-study-card" data-category="speed">
+                    <div class="case-study-image">
+                        <img src="blackpool_cushion.jpg" alt="Blackpool Dinmore Avenue Speed Cushions" onerror="this.parentElement.innerHTML='📷 Blackpool Speed Cushions'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Blackpool</div>
+                        <h3 class="case-study-title">Dinmore Avenue Speed Management</h3>
+                        <p class="case-study-overview">Busy suburban street with primary school, health centre and shops where existing asphalt speed humps had failed. Installation of surface-mounted speed cushions to enforce 20mph speed limit and protect pedestrians.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">One-Piece Speed Cushions</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Blackpool_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 2: Dublin Cycle Protection -->
+                <div class="case-study-card" data-category="cycle">
+                    <div class="case-study-image">
+                        <img src="dundrum_web.jpg" alt="Dublin Dundrum Cycle Lane Protection" onerror="this.parentElement.innerHTML='📷 Dublin Cycle Protection'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Dublin, Ireland</div>
+                        <h3 class="case-study-title">Dundrum School Cycle Routes</h3>
+                        <p class="case-study-overview">Creating protected cycle routes for school children as part of active travel scheme. Council needed safe, segregated cycling infrastructure to connect schools with robust physical barriers.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Narrow Cycle Lane Defender</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Dublin_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 3: Enfield Cycle Lanes -->
+                <div class="case-study-card" data-category="cycle">
+                    <div class="case-study-image">
+                        <img src="enfield_web.jpg" alt="Enfield Hertford Road Lane Separators" onerror="this.parentElement.innerHTML='📷 Enfield Cycle Lanes'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Enfield, London</div>
+                        <h3 class="case-study-title">Hertford Road Cycle Protection</h3>
+                        <p class="case-study-overview">On-street parking spaces positioned between main road and cycle lane created dangerous conditions when cars encroached into cycle lane. Required physical segregation while maintaining parking accessibility.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Lane Separators (500mm)</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Enfield_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 4: Hartlepool Raised Tables -->
+                <div class="case-study-card" data-category="speed">
+                    <div class="case-study-image">
+                        <img src="hartlepool_table.jpg" alt="Hartlepool Torbay Grove Raised Tables" onerror="this.parentElement.innerHTML='📷 Hartlepool Raised Tables'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Hartlepool</div>
+                        <h3 class="case-study-title">Torbay Grove School Access</h3>
+                        <p class="case-study-overview">Primary school access roads lacking pedestrian crossings and traffic calming. Installation of raised tables to create safe crossing points and reduce speeding on 20mph roads.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Eight-Piece Raised Tables</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Hartlepool_RaisedTables_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 5: Hollywood Traffic Islands -->
+                <div class="case-study-card" data-category="islands">
+                    <div class="case-study-image">
+                        <img src="Hollywood_Blvd.jpg" alt="Hollywood Boulevard Traffic Islands" onerror="this.parentElement.innerHTML='📷 Hollywood Traffic Islands'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Los Angeles, California</div>
+                        <h3 class="case-study-title">Hollywood Boulevard Junction</h3>
+                        <p class="case-study-overview">Busy junction where vehicles exceed speed limits and pedestrians feel unsafe crossing. Installation of extended traffic islands to create safe crossing points and reduce speeds.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Extended Traffic Islands</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Hollywood_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 6: New York Cycle Lanes -->
+                <div class="case-study-card" data-category="cycle">
+                    <div class="case-study-image">
+                        <img src="queens_web.jpg" alt="NYC Northern Boulevard Cycle Protection" onerror="this.parentElement.innerHTML='📷 NYC Cycle Protection'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">New York City</div>
+                        <h3 class="case-study-title">Northern Boulevard Cycle Protection</h3>
+                        <p class="case-study-overview">Busy boulevard with unsafe cycling conditions and vehicle incursions into cycle lanes. Installation of cycle lane defenders and separators to create protected cycling infrastructure.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Narrow Cycle Lane Defenders</span>
+                                <span class="product-tag">Lane Separators</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_NYC_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 7: Halifax Car Park -->
+                <div class="case-study-card" data-category="speed">
+                    <div class="case-study-image">
+                        <img src="northbridge.jpg" alt="Halifax North Bridge Car Park" onerror="this.parentElement.innerHTML='📷 Halifax Car Park'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Halifax</div>
+                        <h3 class="case-study-title">North Bridge Car Park Safety</h3>
+                        <p class="case-study-overview">Car park under bridge used by Dean Clough Mills staff where secluded location attracted anti-social speeding. Installation of speed cushions at crossing points to pay-and-display machines.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Two-Piece Speed Cushions</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_NorthBridge_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 8: Northumberland Traffic Island -->
+                <div class="case-study-card" data-category="islands">
+                    <div class="case-study-image">
+                        <img src="Northumberland_Web.jpg" alt="Northumberland Waterloo Road Island" onerror="this.parentElement.innerHTML='📷 Northumberland Island'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Northumberland</div>
+                        <h3 class="case-study-title">Waterloo Road Junction Replacement</h3>
+                        <p class="case-study-overview">Roundabout junction unsuitable for cyclists and pedestrians needed replacement with bespoke island matching revised road geometry. Solution required minimal traffic disruption on main route.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Bespoke Extended Traffic Island</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Northumberland_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 9: Blackburn Chicanes -->
+                <div class="case-study-card" data-category="speed">
+                    <div class="case-study-image">
+                        <img src="polelane.jpg" alt="Blackburn Pole Lane Chicanes" onerror="this.parentElement.innerHTML='📷 Blackburn Chicanes'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Blackburn</div>
+                        <h3 class="case-study-title">Pole Lane Speed Reduction</h3>
+                        <p class="case-study-overview">Long, steep, straight road where majority of 4000+ daily motorists exceeded 30mph limit, with average speeds of 39mph and some reaching 70mph+. Installation of chicanes to force speed reduction.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Traffic Island Chicanes</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_PoleLaneChicane_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 10: Saudi Arabia Airport -->
+                <div class="case-study-card" data-category="speed">
+                    <div class="case-study-image">
+                        <img src="saudi.jpg" alt="Saudi Arabia Airport Speed Calmer" onerror="this.parentElement.innerHTML='📷 Saudi Airport Project'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Jeddah, Saudi Arabia</div>
+                        <h3 class="case-study-title">King Abdulaziz Airport Access</h3>
+                        <p class="case-study-overview">High vehicle speeds at airport access points posed safety risks. Required quick-install solution with minimal operational disruption and custom-fit capabilities for airport road system.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Speed Calmer</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Saudi_Calmer_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+
+                <!-- Case Study 11: Southampton Cycle Route -->
+                <div class="case-study-card" data-category="cycle">
+                    <div class="case-study-image">
+                        <img src="southampton_third.jpg" alt="Southampton Third Avenue Cycle Route" onerror="this.parentElement.innerHTML='📷 Southampton Cycle Route'">
+                    </div>
+                    <div class="case-study-content">
+                        <div class="case-study-location">Southampton</div>
+                        <h3 class="case-study-title">Third Avenue Protected Cycle Route</h3>
+                        <p class="case-study-overview">Part of £25 million, 10-year commitment to create protected cycle route between Totton and Southampton. Aimed to achieve 10% annual increase in daily cycling journeys with safe 30-minute travel time.</p>
+                        
+                        <div class="products-used">
+                            <div class="products-label">Products Used:</div>
+                            <div class="product-tags">
+                                <span class="product-tag">Narrow Cycle Lane Defenders (130mm)</span>
+                                <span class="product-tag">Traffic Islands</span>
+                            </div>
+                        </div>
+
+
+                        <a href="Case Studies/Case_Study_Southampton_2025.pdf" class="read-more-btn">Read Full Case Study</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Start Your Project?</h2>
+            <p>Let us help you implement traffic management solutions that deliver proven results for your community.</p>
+            <a href="#contact" class="btn-white">Discuss Your Project</a>
+            <a href="#" class="btn-white">Request Site Assessment</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Case Study Categories</h3>
+                    <ul>
+                        <li><a href="#" data-filter="cycle">Cycle Lane Protection</a></li>
+                        <li><a href="#" data-filter="speed">Speed Calming</a></li>
+                        <li><a href="#" data-filter="islands">Islands & Refuges</a></li>
+                        <li><a href="#" data-filter="drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const caseStudyCards = document.querySelectorAll('.case-study-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                caseStudyCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Animate case study cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe case study cards for animation
+        caseStudyCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Case study card click to navigate
+        caseStudyCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('read-more-btn')) {
+                    const link = this.querySelector('.read-more-btn');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

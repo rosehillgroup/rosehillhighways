@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Management Solutions - Rosehill Highways</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Source Sans Pro', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+
+        /* Mega Menu Styles */
+        .nav-menu li {
+            position: relative;
+        }
+
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            min-width: 320px;
+            max-width: 350px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            margin-top: 15px;
+        }
+
+        .nav-menu li:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu-section {
+            margin-bottom: 20px;
+        }
+
+        .mega-menu-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .mega-menu-section h4 {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mega-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mega-menu-links li {
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .mega-menu-links li:last-child {
+            border-bottom: none;
+        }
+
+        .mega-menu-links a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .mega-menu-links a:hover {
+            color: #ff6b35;
+            padding-left: 8px;
+        }
+
+        .mega-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        /* Mobile Mega Menu Styles */
+        @media (max-width: 768px) {
+            .mega-menu {
+                position: static;
+                transform: none;
+                min-width: auto;
+                max-width: none;
+                width: 100%;
+                margin: 10px 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .mega-menu::before {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 140px 0 100px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 70px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('rosehill_illustration_web.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(26, 54, 93, 0.85) 0%, 
+                rgba(45, 74, 113, 0.75) 50%,
+                rgba(26, 54, 93, 0.85) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2.6rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: #ff6b35;
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Solution Section Styles */
+        .solution-section {
+            padding: 80px 0;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .solution-section:nth-child(even) {
+            background: white;
+        }
+
+        .solution-section:nth-child(odd) {
+            background: #f8f9fa;
+        }
+
+        .solution-section:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Add subtle top border for better separation */
+        .solution-section:not(:first-child) {
+            border-top: 1px solid #e9ecef;
+        }
+
+        .solution-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .solution-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .solution-description {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .solution-content.reverse {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .solution-content.reverse .solution-text {
+            order: 2;
+        }
+
+        .solution-content.reverse .solution-visual {
+            order: 1;
+        }
+
+        .solution-text {
+            padding: 20px 0;
+        }
+
+        .solution-text h3 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .solution-text p {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .benefits-list li {
+            color: #495057;
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .solution-visual {
+            display: grid;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Two products layout */
+        .solution-visual.two-products {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        /* Three products layout */
+        .solution-visual.three-products {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Single product layout */
+        .solution-visual.single-product {
+            grid-template-columns: 1fr;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .product-showcase {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-showcase:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-showcase:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-feature {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* External Link Style */
+        .external-link {
+            position: relative;
+        }
+
+        .external-link::after {
+            content: '↗';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(26, 54, 93, 0.9);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .external-link:hover::after {
+            background: #ff6b35;
+        }
+
+        /* Drainage Section - Blue Background */
+        .solution-section.drainage-blue {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+        }
+
+        .solution-section.drainage-blue .solution-title {
+            color: white;
+        }
+
+        .solution-section.drainage-blue .solution-description {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .drainage-content-wrapper {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .drainage-text {
+            padding: 40px;
+            color: #333;
+        }
+
+        .drainage-text h3 {
+            color: #1a365d;
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .drainage-text p {
+            color: #495057;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .drainage-text .benefits-list li {
+            color: #495057;
+        }
+
+        .drainage-btn {
+            background: #1a365d;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .drainage-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 54, 93, 0.3);
+            text-decoration: none;
+            color: white;
+            background: #2d4a71;
+        }
+
+        .drainage-image {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .drainage-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .how-it-works h4 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 15px;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .step-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: #ff6b35;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .btn-white {
+            background: white;
+            color: #ff6b35;
+            padding: 18px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .solution-content,
+            .solution-content.reverse {
+                grid-template-columns: 1fr !important;
+                gap: 40px;
+            }
+
+            .solution-content.reverse .solution-text {
+                order: 1 !important;
+            }
+
+            .solution-content.reverse .solution-visual {
+                order: 2 !important;
+            }
+
+            /* Mobile: Stack all products vertically */
+            .solution-visual.two-products,
+            .solution-visual.three-products {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+
+            .solution-visual.single-product {
+                max-width: 100%;
+            }
+
+            .product-showcase {
+                max-width: 100%;
+            }
+
+            .drainage-content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .drainage-image {
+                height: 300px;
+                order: -1;
+            }
+
+            .drainage-text {
+                padding: 30px 20px;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .solution-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Tablet responsive */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .solution-visual.three-products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .solution-visual.three-products .product-showcase:last-child {
+                grid-column: span 2;
+                max-width: 300px;
+                justify-self: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="#solutions" class="active">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="#solutions" class="active">Solutions</a>
+                    <a href="case-studies.html">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Traffic Management Solutions</h1>
+            <p>Discover how our innovative surface-mounted systems solve real-world traffic challenges with minimal disruption and maximum impact.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Cycle Lane Segregation Section -->
+        <section class="solution-section" id="cycle-segregation">
+            <div class="container">
+                <div class="solution-header">
+                    <h2 class="solution-title">Cycle Lane Segregation</h2>
+                    <p class="solution-description">Protecting cyclists with robust, surface-mounted barriers that create clear separation between vehicles and cycle lanes without permanent infrastructure changes.</p>
+                </div>
+
+                <div class="solution-content">
+                    <div class="solution-text">
+                        <h3>How Cycle Lane Protection Works</h3>
+                        <p>Our cycle lane segregation solutions create a physical barrier between vehicles and cyclists, dramatically reducing the risk of incursions and improving cyclist confidence.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Immediate installation with no excavation required</li>
+                            <li>Flexible design accommodates different lane widths</li>
+                            <li>High-visibility materials improve driver awareness</li>
+                            <li>Impact-absorbing recycled rubber construction</li>
+                            <li>Easy removal and repositioning when needed</li>
+                        </ul>
+
+                        <p>Perfect for temporary cycle lanes, trial implementations, or areas where permanent infrastructure isn't feasible.</p>
+                    </div>
+
+                    <div class="solution-visual three-products">
+                        <a href="ncld-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="highways_ncld_edinburgh.jpg" alt="Narrow Cycle Lane Defender">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Narrow Cycle Lane Defender</div>
+                                <div class="product-feature">Robust protection for cycle lanes</div>
+                            </div>
+                        </a>
+
+                        <a href="ncld-lite-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="ncld_lite_web.jpg" alt="NCLD Lite">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">NCLD Lite</div>
+                                <div class="product-feature">Lightweight option for trial schemes</div>
+                            </div>
+                        </a>
+
+                        <a href="lane-separator-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="lane_separators_web.jpg" alt="Lane Separators">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Lane Separators</div>
+                                <div class="product-feature">Modular flexible segregation</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Islands & Refuges Section -->
+        <section class="solution-section" id="islands-refuges">
+            <div class="container">
+                <div class="solution-header">
+                    <h2 class="solution-title">Islands & Refuges</h2>
+                    <p class="solution-description">Creating safe spaces for pedestrians and supporting traffic flow with pre-formed rubber islands that install directly onto existing road surfaces.</p>
+                </div>
+
+                <div class="solution-content reverse">
+                    <div class="solution-text">
+                        <h3>Smart Traffic Island Solutions</h3>
+                        <p>Our traffic islands and pedestrian refuges provide essential infrastructure without the cost and disruption of traditional concrete construction.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Pre-formed units ready for immediate installation</li>
+                            <li>Support signage, lighting, and street furniture (subject to island type)</li>
+                            <li>Improve pedestrian crossing safety</li>
+                            <li>Channel traffic flow effectively</li>
+                            <li>Weather-resistant recycled rubber construction</li>
+                            <li>Reduce vehicle speeds naturally</li>
+                        </ul>
+
+                        <p>Ideal for creating pedestrian refuges, supporting junction improvements, and implementing traffic calming measures in urban environments.</p>
+                    </div>
+
+                    <div class="solution-visual two-products">
+                        <a href="traffic-islands-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="traffic_island_web.jpg" alt="Traffic Islands">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Traffic Islands</div>
+                                <div class="product-feature">Support infrastructure and signage</div>
+                            </div>
+                        </a>
+
+                        <a href="pedestrian-refuges-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="keswick_refuge.jpg" alt="Pedestrian Refuges">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Pedestrian Refuges</div>
+                                <div class="product-feature">Safe crossing points</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Speed Calming Section -->
+        <section class="solution-section" id="speed-calming">
+            <div class="container">
+                <div class="solution-header">
+                    <h2 class="solution-title">Speed Calming</h2>
+                    <p class="solution-description">Reducing vehicle speeds and improving road safety through innovative traffic calming measures that work with the road surface, not against it.</p>
+                </div>
+
+                <div class="solution-content">
+                    <div class="solution-text">
+                        <h3>Effective Speed Reduction Methods</h3>
+                        <p>Our speed calming solutions use engineered vertical profiles and visual cues to naturally encourage drivers to reduce speed while maintaining comfort for emergency vehicles.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>Progressive speed reduction without sudden jolts</li>
+                            <li>Emergency vehicle-friendly design</li>
+                            <li>Reduced noise compared to traditional speed bumps</li>
+                            <li>Surface profile allows water runoff</li>
+                            <li>Installation in under 30 minutes per unit</li>
+                            <li>Compliant with DfT guidelines</li>
+                        </ul>
+
+                        <p>Suitable for residential areas, school zones, and any location where speed reduction is critical for safety.</p>
+                    </div>
+
+                    <div class="solution-visual three-products">
+                        <a href="speed-cushions-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="speed_cushion_web.jpg" alt="Speed Cushions">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Speed Cushions</div>
+                                <div class="product-feature">Targeted speed reduction</div>
+                            </div>
+                        </a>
+
+                        <a href="speed-calmers-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="speed_calmer_web.jpg" alt="Speed Calmers">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Speed Calmers</div>
+                                <div class="product-feature">Progressive speed control</div>
+                            </div>
+                        </a>
+
+                        <a href="raised-tables-zebra-crossings-product.html" class="product-showcase">
+                            <div class="product-image">
+                                <img src="raised_table_web.jpg" alt="Raised Tables">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">Raised Tables & Zebra Crossings</div>
+                                <div class="product-feature">Full-width traffic calming</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Drainage Section -->
+        <section class="solution-section drainage-blue" id="drainage">
+            <div class="container">
+                <div class="solution-header">
+                    <h2 class="solution-title">Drainage Solutions</h2>
+                    <p class="solution-description">Managing surface water with permeable drainage systems that prevent flooding while supporting sustainable urban drainage (SuDS) objectives.</p>
+                </div>
+
+                <div class="drainage-content-wrapper">
+                    <div class="drainage-text">
+                        <h3>Advanced Drainage Technology</h3>
+                        <p>Our specialist drainage division provides comprehensive water management solutions using innovative recycled rubber construction that integrates seamlessly with existing infrastructure.</p>
+                        
+                        <ul class="benefits-list">
+                            <li>High-capacity modular system manages stormwater runoff</li>
+                            <li>Rubber matrix provides partial filtration and sediment retention</li>
+                            <li>Supports sustainable drainage requirements</li>
+                            <li>Reduces strain on existing drainage systems</li>
+                            <li>Made from 100% recycled materials</li>
+                            <li>Long-term performance in extreme weather</li>
+                        </ul>
+
+                        <p>Essential for car parks, industrial areas, and any surface where water management is critical for flood prevention and environmental protection.</p>
+                        
+                        <a href="https://rosehilldrainage.co.uk" target="_blank" rel="noopener noreferrer" class="drainage-btn">
+                            Visit Rosehill Drainage
+                            <span>↗</span>
+                        </a>
+                    </div>
+
+                    <div class="drainage-image">
+                        <img src="drainage_web.jpg" alt="Rosehill Drainage Systems" onerror="this.style.display='none'">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Implement These Solutions?</h2>
+            <p>Let our team help you choose the right traffic management solution for your specific requirements.</p>
+            <a href="#contact" class="btn-white">Request Consultation</a>
+            <a href="#" class="btn-white">Download Technical Guides</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Solutions</h3>
+                    <ul>
+                        <li><a href="#cycle-segregation">Cycle Lane Segregation</a></li>
+                        <li><a href="#islands-refuges">Islands & Refuges</a></li>
+                        <li><a href="#speed-calming">Speed Calming</a></li>
+                        <li><a href="#drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe solution sections for animation
+        document.querySelectorAll('.solution-section, .product-showcase').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

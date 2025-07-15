@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCLD Lite - Rosehill Highways</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Source Sans Pro', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        .contact-btn {
+            background: #ff6b35;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+
+        /* Mega Menu Styles */
+        .nav-menu li {
+            position: relative;
+        }
+
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            min-width: 320px;
+            max-width: 350px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            margin-top: 15px;
+        }
+
+        .nav-menu li:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .mega-menu-section {
+            margin-bottom: 20px;
+        }
+
+        .mega-menu-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .mega-menu-section h4 {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .mega-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mega-menu-links li {
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .mega-menu-links li:last-child {
+            border-bottom: none;
+        }
+
+        .mega-menu-links a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 10px 0;
+            display: block;
+            transition: all 0.2s ease;
+        }
+
+        .mega-menu-links a:hover {
+            color: #ff6b35;
+            padding-left: 8px;
+        }
+
+        .mega-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        /* Mobile Mega Menu Styles */
+        @media (max-width: 768px) {
+            .mega-menu {
+                position: static;
+                transform: none;
+                min-width: auto;
+                max-width: none;
+                width: 100%;
+                margin: 10px 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .mega-menu::before {
+                display: none;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #1a365d, #2d4a71);
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: flex;
+        }
+
+        .mobile-nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .mobile-nav-menu a.active {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+
+        /* Modern Breadcrumb */
+        .breadcrumb {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            margin-top: 100px;
+            border-bottom: 1px solid #dee2e6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b35, #1a365d);
+        }
+
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            width: 100%;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breadcrumb-item a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: transparent;
+            font-weight: 500;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .breadcrumb-separator {
+            color: #adb5bd;
+            font-size: 0.8rem;
+            margin: 0 4px;
+            opacity: 0.7;
+        }
+
+        .breadcrumb-current {
+            color: #1a365d;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(26, 54, 93, 0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(26, 54, 93, 0.1);
+        }
+
+        /* Product Hero - Different layout for Lite */
+        .product-hero {
+            position: relative;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0 80px;
+            overflow: hidden;
+        }
+
+        .product-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 107, 53, 0.15) 100%);
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-text {
+            position: relative;
+        }
+
+        .hero-accent {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .product-hero h1 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            color: #1a365d;
+        }
+
+        .product-hero h1 .lite {
+            color: #ff6b35;
+            font-weight: 500;
+            font-size: 0.8em;
+            vertical-align: top;
+            position: relative;
+            top: -0.2em;
+        }
+
+        .product-tagline {
+            font-size: 1.3rem;
+            color: #495057;
+            max-width: 550px;
+            line-height: 1.5;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .hero-feature:hover {
+            border-color: #ff6b35;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.15);
+        }
+
+        .hero-feature-icon {
+            width: 35px;
+            height: 35px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .hero-feature span {
+            font-weight: 600;
+            color: #1a365d;
+            font-size: 0.95rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .hero-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 3px solid #e9ecef;
+            position: relative;
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+        }
+
+        .hero-image-card:hover {
+            transform: rotate(0deg) translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid #dee2e6;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .size-comparison {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: #ff6b35;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Product Content Grid */
+        .product-content {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .product-images {
+            position: sticky;
+            top: 120px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 2px solid #e9ecef;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .thumbnail {
+            height: 120px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #ff6b35;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Product Details */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section-block {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 2px solid #e9ecef;
+        }
+
+        .section-block h2 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .section-block h3 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .section-block p {
+            color: #495057;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        /* Why Choose Lite Section */
+        .why-lite {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border: 2px solid #ff6b35;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-lite::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #ff6b35;
+        }
+
+        .lite-advantages {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .lite-advantage {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .lite-advantage:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #ff6b35;
+        }
+
+        .advantage-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .advantage-content h4 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .advantage-content p {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Specifications Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+
+        .specs-table th,
+        .specs-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .specs-table th {
+            background: #f8f9fa;
+            font-family: 'Overpass', sans-serif;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .specs-highlight {
+            background: #fff3f0 !important;
+            border-left: 4px solid #ff6b35;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cta-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            margin-bottom: 25px;
+            opacity: 0.95;
+            font-size: 1.05rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: #ff6b35;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Tabbed Content */
+        .tabbed-content {
+            margin: 30px 0;
+        }
+
+        .tab-nav {
+            display: flex;
+            border-bottom: 3px solid #e9ecef;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            gap: 5px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-family: 'Overpass', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+            min-width: max-content;
+        }
+
+        .tab-btn:hover {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #ff6b35;
+            border-bottom-color: #ff6b35;
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Related Products */
+        .related-products {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .related-products h2 {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 2.4rem;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .related-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .related-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .related-image {
+            height: 200px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .related-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .related-card:hover .related-image img {
+            transform: scale(1.05);
+        }
+
+        .related-content {
+            padding: 25px;
+        }
+
+        .related-title {
+            font-family: 'Overpass', sans-serif;
+            color: #1a365d;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .related-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .related-link {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.3s ease;
+        }
+
+        .related-link:hover {
+            gap: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a365d;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-family: 'Overpass', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #ff6b35;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            opacity: 0.9;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-images {
+                position: static;
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Ensure viewport constraints */
+            html, body {
+                max-width: 100vw;
+                overflow-x: hidden;
+            }
+
+            /* Force everything to be contained */
+            .content-grid {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .content-grid > * {
+                width: 100%;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+
+            /* Fix tab navigation */
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                white-space: normal;
+                flex-shrink: 1;
+                min-width: auto;
+                text-align: center;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 5px;
+                justify-content: center;
+                margin-bottom: 25px;
+                padding-bottom: 5px;
+            }
+
+            /* Ensure all content elements are constrained */
+            .product-details {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .cta-section {
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .product-images {
+                position: static;
+                order: -1;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .main-image {
+                height: 300px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .section-block {
+                padding: 20px;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Center align mobile menu button text */
+            .mobile-nav-menu .contact-btn {
+                text-align: center;
+                display: block;
+                width: 100%;
+            }
+
+            .product-hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .product-hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: -1px;
+            }
+
+            .product-tagline {
+                font-size: 1.15rem;
+            }
+
+            .hero-features {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .hero-feature {
+                padding: 12px 16px;
+            }
+
+            .hero-image-card {
+                transform: rotate(0deg);
+                margin: 0 20px;
+            }
+
+            .lite-advantages {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .product-hero {
+                margin-top: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Force critical layout elements to respect screen width */
+            .content-grid,
+            .product-images,
+            .product-details,
+            .main-image,
+            .section-block,
+            .cta-section {
+                max-width: 100vw;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.85rem;
+                min-width: auto;
+                white-space: normal;
+                flex-shrink: 1;
+                text-align: center;
+                flex: 1;
+            }
+
+            .tab-nav {
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .section-block {
+                padding: 15px;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            .product-hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .breadcrumb-list {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Rosehill_Highways_Landscape_White.png" alt="Rosehill Highways" style="height: 60px;">
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="solutions.html" class="active">Solutions</a>
+                        <div class="mega-menu">
+                            <div class="mega-menu-section">
+                                <h4>Cycle Lane Protection</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="ncld-product.html">NCLD Defenders</a></li>
+                                    <li><a href="ncld-lite-product.html">NCLD Lite</a></li>
+                                    <li><a href="lane-separator-product.html">Lane Separators</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Islands & Refuges</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="traffic-islands-product.html">Traffic Islands</a></li>
+                                    <li><a href="pedestrian-refuges-product.html">Pedestrian Refuges</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-section">
+                                <h4>Speed Calming</h4>
+                                <ul class="mega-menu-links">
+                                    <li><a href="speed-cushions-product.html">Speed Cushions</a></li>
+                                    <li><a href="speed-calmers-product.html">Speed Calmers</a></li>
+                                    <li><a href="raised-tables-zebra-crossings-product.html">Raised Tables & Zebra Crossings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="case-studies.html">Case Studies</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html" class="contact-btn">Get in Touch</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" id="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="mobile-nav-menu" id="mobile-menu">
+                    <a href="index.html">Home</a>
+                    <a href="solutions.html" class="active">Solutions</a>
+                    <a href="case-studies.html">Case Studies</a>
+                    <a href="about-us.html">About Us</a>
+                    <a href="contact-us.html" class="contact-btn">Get in Touch</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <section class="breadcrumb">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb-list" aria-label="Breadcrumb">
+                <div class="breadcrumb-item">
+                    <a href="index.html">Home</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a>
+                </div>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-item">
+                    <span class="breadcrumb-current">NCLD Lite</span>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <span class="hero-accent">Compact & Lightweight</span>
+                <h1>NCLD <span class="lite">Lite</span></h1>
+                <p class="product-tagline">Half the length, less than half the weight. The 1-metre NCLD Lite offers maximum flexibility for cycle lane design with single-installer convenience.</p>
+                
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <div class="hero-feature-icon">
+                            <img src="Icons/Glyph/predictive maintenance, smart manufacturing, IoT, machine health, fa.svg" alt="Single Installer" style="width: 24px; height: 24px; filter: invert(1);">
+                        </div>
+                        <span>Single Installer</span>
+                    </div>
+                    <div class="hero-feature">
+                        <div class="hero-feature-icon">
+                            <img src="Icons/Glyph/Caliper,measurement, precision, accuracy, tool, quality.svg" alt="1m Length" style="width: 24px; height: 24px; filter: invert(1);">
+                        </div>
+                        <span>1m Length</span>
+                    </div>
+                    <div class="hero-feature">
+                        <div class="hero-feature-icon">
+                            <img src="Icons/Glyph/Scale ,balance, weight, measure, quality, precision.svg" alt="24kg Weight" style="width: 24px; height: 24px; filter: invert(1);">
+                        </div>
+                        <span>24kg Weight</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="#specifications" class="hero-btn">View Specifications →</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-card">
+                    <div class="hero-image">
+                        <img src="ncld_lite_web.jpg" alt="NCLD Lite" onerror="this.parentElement.innerHTML='<div style=&quot;color: #6c757d; display: flex; align-items: center; justify-content: center; height: 100%; font-size: 1.2rem;&quot;>NCLD Lite Product Image</div>'">
+                    </div>
+                    <div class="size-comparison">50% Size</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Content -->
+    <section class="product-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="ncld_lite_web_03.jpg" alt="NCLD Lite installed on road" onerror="this.parentElement.innerHTML='📷 NCLD Lite Product Image'">
+                    </div>
+                    <div class="image-thumbnails">
+                        <div class="thumbnail active">
+                            <img src="ncld_lite_web_03.jpg" alt="NCLD Lite Overview" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="ncld_lite_web_01.jpg" alt="Three NCLD Lites" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="ncld_lite_web_02.jpg" alt="NCLD Lite Close Up" onerror="this.parentElement.innerHTML='📷'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="product-details">
+                    <!-- Why Choose NCLD Lite -->
+                    <div class="section-block why-lite">
+                        <h2>Why Choose NCLD Lite?</h2>
+                        <p>The NCLD Lite delivers all the proven benefits of our full-size defenders in a compact, lightweight format that revolutionizes installation efficiency and design flexibility.</p>
+                        
+                        <div class="lite-advantages">
+                            <div class="lite-advantage">
+                                <div class="advantage-icon">
+                                    <img src="Icons/Glyph/predictive maintenance, smart manufacturing, IoT, machine health, fa.svg" alt="Single Installer" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="advantage-content">
+                                    <h4>Single Installer</h4>
+                                    <p>At just 24kg, one person can handle and install units safely</p>
+                                </div>
+                            </div>
+                            <div class="lite-advantage">
+                                <div class="advantage-icon">
+                                    <img src="Icons/Glyph/Ruler, Compass, Measurement, Design, Engineering.svg" alt="Design Precision" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="advantage-content">
+                                    <h4>Design Precision</h4>
+                                    <p>1m length allows exact positioning and tighter radius corners</p>
+                                </div>
+                            </div>
+                            <div class="lite-advantage">
+                                <div class="advantage-icon">
+                                    <img src="Icons/Glyph/fast delivery, rocket shipping, express service, speed courier, quick transport.svg" alt="Faster Installation" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="advantage-content">
+                                    <h4>Faster Installation</h4>
+                                    <p>Reduced weight means quicker, safer handling and positioning</p>
+                                </div>
+                            </div>
+                            <div class="lite-advantage">
+                                <div class="advantage-icon">
+                                    <img src="Icons/Glyph/recycle, arrow, cycle, direction, loop.svg" alt="Sustainable Impact" style="width: 32px; height: 32px; filter: invert(1);">
+                                </div>
+                                <div class="advantage-content">
+                                    <h4>Sustainable Impact</h4>
+                                    <p>Each unit uses 4.5 recycled car tyres (17kg rubber granules)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabbed Content -->
+                    <div class="section-block">
+                        <h2>Product Details</h2>
+                        <div class="tabbed-content">
+                            <div class="tab-nav">
+                                <button class="tab-btn active" data-tab="features">Features & Benefits</button>
+                                <button class="tab-btn" data-tab="specifications">Technical Specifications</button>
+                                <button class="tab-btn" data-tab="applications">Applications</button>
+                            </div>
+
+                            <!-- Features & Benefits Tab -->
+                            <div class="tab-content active" id="features">
+                                <h3>Key Features & Benefits</h3>
+                                <p>NCLD Lite shares all the core benefits of the full NCLD range while adding unique advantages:</p>
+                                
+                                <ul class="benefits-list">
+                                    <li>Half the length and less than half the weight of standard units</li>
+                                    <li>Single-person installation capability (24kg units)</li>
+                                    <li>Enhanced design flexibility for complex layouts</li>
+                                    <li>Perfect for tight corners and radius applications</li>
+                                    <li>Surface-mounted—no excavation required</li>
+                                    <li>Fitted with M24 anchor thread as standard</li>
+                                    <li>Retroreflective glass eye included</li>
+                                    <li>Compatible with a range of bollards and signage</li>
+                                    <li>Quick removal and replacement when needed</li>
+                                    <li>100% recycled tyre rubber construction</li>
+                                    <li>Suitable for permanent or trial installations</li>
+                                </ul>
+                                
+                                <p>The compact size makes NCLD Lite ideal for locations where precise positioning is critical, while the reduced weight dramatically improves installation safety and efficiency.</p>
+                            </div>
+
+                            <!-- Technical Specifications Tab -->
+                            <div class="tab-content" id="specifications">
+                                <h3>Technical Specifications</h3>
+                                <p>NCLD Lite maintains the proven 130mm height while offering a more manageable size:</p>
+                                
+                                <table class="specs-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Specification</th>
+                                            <th>NCLD Lite</th>
+                                            <th>Standard NCLD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="specs-highlight">
+                                            <td><strong>Length</strong></td>
+                                            <td>1000mm</td>
+                                            <td>2000mm</td>
+                                        </tr>
+                                        <tr class="specs-highlight">
+                                            <td><strong>Weight</strong></td>
+                                            <td>24kg</td>
+                                            <td>60kg</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Width</strong></td>
+                                            <td>235mm</td>
+                                            <td>235mm</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Height</strong></td>
+                                            <td>130mm</td>
+                                            <td>130mm</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h4>Additional Specifications</h4>
+                                <ul class="benefits-list">
+                                    <li><strong>Material:</strong> 100% recycled tyre rubber</li>
+                                    <li><strong>Colour:</strong> Standard black (other colours available)</li>
+                                    <li><strong>Anchor Thread:</strong> M24 as standard</li>
+                                    <li><strong>Reflective Element:</strong> Retroreflective glass eye included</li>
+                                    <li><strong>Installation:</strong> Surface-mounted with structural adhesive</li>
+                                    <li><strong>Recycled Content:</strong> 4.5 car tyres per unit (17kg rubber granules)</li>
+                                    <li><strong>Installation Team:</strong> Single person capable</li>
+                                </ul>
+                            </div>
+
+                            <!-- Applications Tab -->
+                            <div class="tab-content" id="applications">
+                                <h3>Applications</h3>
+                                <p>NCLD Lite excels in situations requiring precise positioning and flexible installation:</p>
+                                
+                                <h4>Ideal Applications</h4>
+                                <ul class="benefits-list">
+                                    <li>Tight radius corners and curved cycle lanes</li>
+                                    <li>Complex junction layouts requiring precision</li>
+                                    <li>Retrofit projects in constrained spaces</li>
+                                    <li>Trial schemes requiring frequent adjustment</li>
+                                    <li>Single-installer maintenance programs</li>
+                                    <li>School zone temporary segregation</li>
+                                    <li>Event-based cycle route protection</li>
+                                    <li>Gap filling in existing installations</li>
+                                    <li>Heritage areas with access restrictions</li>
+                                    <li>Quick response safety improvements</li>
+                                </ul>
+
+                                <h4>Installation Advantages</h4>
+                                <ul class="benefits-list">
+                                    <li>Reduced team size (single installer)</li>
+                                    <li>Lower transport costs (more units per vehicle)</li>
+                                    <li>Easier handling in confined spaces</li>
+                                    <li>Faster installation and removal</li>
+                                    <li>Improved safety during handling</li>
+                                    <li>Enhanced precision in positioning</li>
+                                </ul>
+
+                                <h4>When to Choose NCLD Lite</h4>
+                                <p>Select NCLD Lite when you need maximum flexibility, precise positioning, or when installation resources are limited. The compact size makes it perfect for complex layouts while maintaining all the protective benefits of the full NCLD range.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="cta-section">
+                        <h3>Ready for Flexible Cycle Protection?</h3>
+                        <p>Discover how NCLD Lite can simplify your cycle lane projects with single-installer convenience and design precision.</p>
+                        <div class="cta-buttons">
+                            <a href="contact-us.html" class="btn-white">Request Quote</a>
+                            <a href="#" class="btn-white">Download Datasheet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+        <div class="container">
+            <h2>Related Products</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="ncld_lite_web.jpg" alt="Standard NCLD" onerror="this.parentElement.innerHTML='📷 Standard NCLD'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Standard NCLD Range</h3>
+                        <p class="related-description">Full-size 2-metre units providing maximum impact protection for high-traffic cycle lanes.</p>
+                        <a href="ncld-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="lane_separators_web.jpg" alt="Lane Separators" onerror="this.parentElement.innerHTML='📷 Lane Separators'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Lane Separators</h3>
+                        <p class="related-description">Modular 1.5m units for wider applications and complex traffic management configurations.</p>
+                        <a href="lane-separator-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+
+                <div class="related-card">
+                    <div class="related-image">
+                        <img src="traffic_island_web.jpg" alt="Traffic Islands" onerror="this.parentElement.innerHTML='📷 Traffic Islands'">
+                    </div>
+                    <div class="related-content">
+                        <h3 class="related-title">Traffic Islands</h3>
+                        <p class="related-description">Complete junction solutions that work seamlessly with NCLD installations.</p>
+                        <a href="traffic-islands-product.html" class="related-link">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><strong>Rosehill Highways</strong><br>
+                    Spring Bank Mills<br>
+                    Sowerby Bridge<br>
+                    HX6 3BW, United Kingdom</p>
+                    <p><img src="Icons/Glyph/phone, call, telephone, handset, communication, contact, mobile, device.svg" alt="Phone" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> +44 (0)1422 839 456<br>
+                    <img src="Icons/Glyph/email, envelope, mail, message, communication, contact, letter, send.svg" alt="Email" style="width: 16px; height: 16px; filter: invert(1); vertical-align: middle; margin-right: 8px;"> info@rosehillhighways.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Product Categories</h3>
+                    <ul>
+                        <li><a href="solutions.html#cycle-segregation">Cycle Lane Segregation</a></li>
+                        <li><a href="solutions.html#islands-refuges">Islands & Refuges</a></li>
+                        <li><a href="solutions.html#speed-calming">Speed Calming</a></li>
+                        <li><a href="solutions.html#drainage">Drainage Solutions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>About Rosehill</h3>
+                    <p>Leading manufacturer of sustainable traffic management solutions, helping create safer streets across the UK with innovative recycled rubber products.</p>
+                    <p style="margin-top: 20px;">
+                        <strong>Accreditations:</strong><br>
+                        ISO 9001 • ISO 14001 • BBA • MIRA
+                    </p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 Rosehill Highways. Part of the Rosehill Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                
+                if (target) {
+                    // If clicking on specifications link, activate the specifications tab first
+                    if (targetId === 'specifications') {
+                        const specTab = document.querySelector('[data-tab="specifications"]');
+                        if (specTab) {
+                            specTab.click();
+                        }
+                    }
+                    
+                    // Scroll to the parent section that contains the tabs
+                    const parentSection = target.closest('.section-block');
+                    if (parentSection) {
+                        parentSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    } else {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', function() {
+                mobileToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+
+        // Enhanced scroll effect for header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, rgba(26, 54, 93, 0.98), rgba(45, 74, 113, 0.98))';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 8px 32px rgba(0,0,0,0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1a365d, #2d4a71)';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Image thumbnail functionality
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.querySelector('.main-image img');
+
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                thumbnails.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // Update main image source
+                const thumbImg = this.querySelector('img');
+                if (thumbImg && mainImage) {
+                    mainImage.src = thumbImg.src;
+                    mainImage.alt = thumbImg.alt;
+                }
+            });
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetTab = this.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                this.classList.add('active');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.section-block, .related-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
