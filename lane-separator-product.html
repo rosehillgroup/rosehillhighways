@@ -2002,7 +2002,7 @@
 
         // Image thumbnail functionality
         const thumbnails = document.querySelectorAll('.thumbnail');
-        const mainImage = document.querySelector('.main-image img');
+        const mainImageContainer = document.querySelector('.main-image');
 
         thumbnails.forEach((thumbnail, index) => {
             thumbnail.addEventListener('click', function() {
@@ -2011,11 +2011,12 @@
                 // Add active class to clicked thumbnail
                 this.classList.add('active');
                 
-                // Update main image source
-                const thumbImg = this.querySelector('img');
-                if (thumbImg && mainImage) {
-                    mainImage.src = thumbImg.src;
-                    mainImage.alt = thumbImg.alt;
+                // Update main image by cloning the thumbnail's picture element
+                const thumbPicture = this.querySelector('picture');
+                if (thumbPicture && mainImageContainer) {
+                    const clonedPicture = thumbPicture.cloneNode(true);
+                    mainImageContainer.innerHTML = '';
+                    mainImageContainer.appendChild(clonedPicture);
                 }
             });
         });
