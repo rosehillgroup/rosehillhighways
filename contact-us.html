@@ -1100,7 +1100,7 @@
             }
         });
 
-        // Form handling
+        // Form handling with GTM tracking
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1110,6 +1110,8 @@
             const email = document.getElementById('email').value.trim();
             const subject = document.getElementById('subject').value.trim();
             const message = document.getElementById('message').value.trim();
+            const projectType = document.getElementById('projectType').value;
+            const organization = document.getElementById('organization').value.trim();
             
             if (!firstName || !lastName || !email || !subject || !message) {
                 alert('Please fill in all required fields.');
@@ -1123,12 +1125,75 @@
                 return;
             }
             
+            // Track form submission in GTM
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'form_submission',
+                'form_name': 'contact_form',
+                'form_type': 'lead_generation',
+                'project_type': projectType || 'not_specified',
+                'has_organization': organization ? 'yes' : 'no',
+                'page_location': window.location.href,
+                'page_title': document.title
+            });
+            
             // Form submission would go here
             // For now, show success message
             alert('Thank you for your message! We will respond within 24 hours.');
             
+            // Track successful form completion
+            window.dataLayer.push({
+                'event': 'conversion',
+                'conversion_type': 'contact_form_completed',
+                'value': 1
+            });
+            
             // Reset form
             this.reset();
+        });
+
+        // Track phone and email clicks
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a');
+            if (!target) return;
+            
+            const href = target.getAttribute('href');
+            if (!href) return;
+            
+            // Track phone clicks
+            if (href.startsWith('tel:')) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'click',
+                    'click_type': 'phone_number',
+                    'click_text': target.textContent.trim(),
+                    'click_url': href,
+                    'page_location': window.location.href
+                });
+            }
+            
+            // Track email clicks
+            if (href.startsWith('mailto:')) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'click',
+                    'click_type': 'email_address',
+                    'click_text': target.textContent.trim(),
+                    'click_url': href,
+                    'page_location': window.location.href
+                });
+            }
+            
+            // Track consultation request clicks
+            if (href.includes('#contact-form') || target.textContent.includes('Request Consultation')) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    'event': 'click',
+                    'click_type': 'consultation_request',
+                    'click_text': target.textContent.trim(),
+                    'page_location': window.location.href
+                });
+            }
         });
 
         // Animate elements on scroll
