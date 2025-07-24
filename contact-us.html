@@ -974,6 +974,11 @@
                 padding: 30px 20px;
             }
         }
+
+        /* Hidden field for bot protection */
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -1101,7 +1106,11 @@
             <p class="section-subtitle">Fill out the form below and we'll get back to you within 24 hours</p>
             
             <div class="form-container">
-                <form action="#" method="POST" id="contactForm">
+                <form name="contact" method="POST" netlify data-netlify="true" data-netlify-honeypot="bot-field" action="/thank-you.html" id="contactForm">
+                    <input type="hidden" name="form-name" value="contact">
+                    <p class="hidden">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="firstName" class="form-label">First Name *</label>
